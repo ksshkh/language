@@ -10,7 +10,7 @@ int main(void) {
 
     TokensParcing(&tree, &(tree.num_of_nodes), &tbl_nm, &code_error);
 
-    for(size_t i = 0; i < 16; i++) {
+    for(size_t i = 0; i < 18; i++) {
         printf("%d %lf\n", tree.tokens[i]->type, tree.tokens[i]->data);
     }
     printf("Name table:\n");
