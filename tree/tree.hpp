@@ -32,6 +32,7 @@ enum Type {
     VAR,
     NUM,
     IDE,
+    FUNC_IDE,
 };
 
 enum Operations {
@@ -50,9 +51,11 @@ enum Operations {
     L_BR = '(',
     R_BR = ')',
     SEM  = ';',
+    EQU  = '=',
 
     IF    = 'i',
     WHILE = 'w',
+    DEF   = 'd',
 };
 
 enum Vars {

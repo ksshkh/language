@@ -7,9 +7,9 @@
 #define NODE_BORDER_COLOR  "\"#203D98\""
 #define BACKGROUND_COLOR   "\"#FFE7A5\""
 
-static const char* DOT_FILE_NAME       = "./debug/tree.dot";
-static const char* IMAGE_NAME          = "./debug/tree_image.svg";
-static const char* HTML_FILE_NAME      = "./debug/tree.html";
+static const char* DOT_FILE_NAME       = "../frontend/debug/tree.dot";
+static const char* IMAGE_NAME          = "../frontend/debug/tree_image.svg";
+static const char* HTML_FILE_NAME      = "../frontend/debug/tree.html";
 
 void DotTreeDump(Tree* tree, int* code_error) {
 
@@ -80,7 +80,7 @@ void PrintDotNode(Node* node, FILE* stream) {
 
 void GraphCreate(void) {
 
-    char command[] = "dot -Tsvg /home/ksenia/huawei/differentiator/debug/tree.dot -o /home/ksenia/huawei/differentiator/debug/tree_image.svg";
+    char command[] = "dot -Tsvg /home/ksenia/huawei/language/frontend/debug/tree.dot -o /home/ksenia/huawei/language/frontend/debug/tree_image.svg";
     system(command);
 }
 
