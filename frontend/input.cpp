@@ -246,7 +246,7 @@ Node* GetG(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     // if(tokens[*ip]->data != EOT) {SNTX_ERR}
     // (*ip)++;
 
-    Node* node = GetEqual(num_of_nodes, tokens, ip, code_error);
+    Node* node = GetIf(num_of_nodes, tokens, ip, code_error);
     if(tokens[*ip]->data != SEM) {SNTX_ERR}
     (*ip)++;
 
@@ -292,17 +292,20 @@ Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     MY_ASSERT(tokens       != NULL, PTR_ERROR);
     MY_ASSERT(ip           != NULL, PTR_ERROR);
 
-    if(tokens[*ip]->data != IF) {SNTX_ERR}
-    (*ip)++;
+    while(tokens[*ip]->data == IF) {
 
-    if(tokens[*ip]->data != L_BR) {SNTX_ERR}
-    (*ip)++;
+        Operations op = (Operations)tokens[*ip]->data;
+        (*ip)++;
 
-    Node* val = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+        Node* left_node  = GetBrackets(num_of_nodes, tokens, ip, code_error);
+        Node* right_node = GetEqual   (num_of_nodes, tokens, ip, code_error);
 
-    if(tokens[*ip]->data != R_BR) {SNTX_ERR}
-    (*ip)++;
+        return _IF(left_node, right_node);
+    }
 
+    Node* node = GetEqual(num_of_nodes, tokens, ip, code_error);
+
+    return node;
 }
 
 Node* GetEqual(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
