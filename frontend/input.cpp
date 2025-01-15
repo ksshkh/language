@@ -246,7 +246,7 @@ Node* GetG(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     // if(tokens[*ip]->data != EOT) {SNTX_ERR}
     // (*ip)++;
 
-    Node* node = GetIf(num_of_nodes, tokens, ip, code_error);
+    Node* node = GetOp(num_of_nodes, tokens, ip, code_error);
     if(tokens[*ip]->data != SEM) {SNTX_ERR}
     (*ip)++;
 
@@ -281,8 +281,14 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     MY_ASSERT(tokens       != NULL, PTR_ERROR);
     MY_ASSERT(ip           != NULL, PTR_ERROR);
 
+    if((Operations)tokens[*ip]->data == IF) {
+        (*ip)++;
 
-
+        return GetIf(num_of_nodes, tokens, ip, code_error);
+    }
+    else {
+        return GetEqual(num_of_nodes, tokens, ip, code_error);
+    }
 
 }
 
@@ -292,20 +298,19 @@ Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     MY_ASSERT(tokens       != NULL, PTR_ERROR);
     MY_ASSERT(ip           != NULL, PTR_ERROR);
 
-    while(tokens[*ip]->data == IF) {
+    //fix: works without brackets after if!!!!!! in GetBrackets change mb addandsub
 
-        Operations op = (Operations)tokens[*ip]->data;
-        (*ip)++;
+    if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
+    (*ip)++;
 
-        Node* left_node  = GetBrackets(num_of_nodes, tokens, ip, code_error);
-        Node* right_node = GetEqual   (num_of_nodes, tokens, ip, code_error);
+    Node* left_node = GetEqual(num_of_nodes, tokens, ip, code_error);
 
-        return _IF(left_node, right_node);
-    }
+    if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
+    (*ip)++;
 
-    Node* node = GetEqual(num_of_nodes, tokens, ip, code_error);
+    Node* right_node = GetEqual(num_of_nodes, tokens, ip, code_error);
 
-    return node;
+    return _IF(left_node, right_node);
 }
 
 Node* GetEqual(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
@@ -469,8 +474,8 @@ Node* GetBrackets(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_err
         Node* node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
 
         if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
-
         (*ip)++;
+
         return node;
     }
     else if(tokens[*ip]->type == VAR) {
