@@ -27,10 +27,6 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
             tree->tokens[tokens_ip] = _EOT;
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == 'x') {
-            tree->tokens[tokens_ip] = _VAR(tree->data_base[data_base_ip]);
-            data_base_ip++;
-        }
         else if(tree->data_base[data_base_ip] == '(') {
             tree->tokens[tokens_ip] = _L_BR;
             data_base_ip++;
@@ -101,6 +97,7 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
             switch(op_code) {
                 case DEF_OP: {
                     int found_id = FindName(tbl_nm, begin, length, code_error);
+
                     if(found_id != DEF_IP) {
                         if((Operations)tree->tokens[tokens_ip - 1]->data == DEF && tokens_ip) {
                             tree->tokens[tokens_ip] = _FUNC_IDE(found_id);
@@ -111,7 +108,8 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
                     }
                     else {
                         AddNewName(tbl_nm, begin, length, code_error);
-                        if((Operations)tree->tokens[tokens_ip - 1]->data == DEF && tokens_ip) {
+
+                        if(tokens_ip && (Operations)tree->tokens[tokens_ip - 1]->data == DEF) {
                             tree->tokens[tokens_ip] = _FUNC_IDE(tbl_nm->free_id - 1);
                         }
                         else {
@@ -286,6 +284,11 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
 
         return GetIf(num_of_nodes, tokens, ip, code_error);
     }
+    else if((Operations)tokens[*ip]->data == WHILE) {
+        (*ip)++;
+
+        return GetWhile(num_of_nodes, tokens, ip, code_error);
+    }
     else {
         return GetEqual(num_of_nodes, tokens, ip, code_error);
     }
@@ -303,7 +306,7 @@ Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
     (*ip)++;
 
-    Node* left_node = GetEqual(num_of_nodes, tokens, ip, code_error);
+    Node* left_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
 
     if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
     (*ip)++;
@@ -311,6 +314,25 @@ Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     Node* right_node = GetEqual(num_of_nodes, tokens, ip, code_error);
 
     return _IF(left_node, right_node);
+}
+
+Node* GetWhile(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
+
+    MY_ASSERT(num_of_nodes != NULL, PTR_ERROR);
+    MY_ASSERT(tokens       != NULL, PTR_ERROR);
+    MY_ASSERT(ip           != NULL, PTR_ERROR);
+
+    if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
+    (*ip)++;
+
+    Node* left_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+
+    if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
+    (*ip)++;
+
+    Node* right_node = GetEqual(num_of_nodes, tokens, ip, code_error);
+
+    return _WHILE(left_node, right_node);
 }
 
 Node* GetEqual(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {

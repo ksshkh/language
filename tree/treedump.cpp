@@ -60,8 +60,16 @@ void PrintDotNode(Node* node, FILE* stream) {
         fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_OP_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
             node, node, node->type, (int)node->data, node->parent, node->left, node->right);
     }
+    else if(node->type == DEF_TYPE) {
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_OP_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
+            node, node, node->type, (int)node->data, node->parent, node->left, node->right);
+    }
+    else if(node->type == IDE) {
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_OP_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
+            node, node, node->type, (int)node->data, node->parent, node->left, node->right);
+    }
     else {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_VAR_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_VAR_COLOR ", label = \"{indx: %p | type: %d | value: %d | parent: %p | { left: %p | right: %p}}\"];\n",
             node, node, node->type, (int)node->data, node->parent, node->left, node->right);
     }
 

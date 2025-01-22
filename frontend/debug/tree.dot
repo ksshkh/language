@@ -3,47 +3,51 @@ digraph Tree {
 	node [shape = record];
 	edge [color = "#203D98"];
 	bgcolor = "#FFE7A5";
-	node0x5fd56cc21fa0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5fd56cc21fa0 | type: 0 | value: ; | parent: (nil) | { left: 0x5fd56cc21f70 | right: 0x5fd56cc22090}}"];
-		node0x5fd56cc21fa0 -> node0x5fd56cc21f70
-	node0x5fd56cc21f70 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5fd56cc21f70 | type: 1 | value: = | parent: 0x5fd56cc21fa0 | { left: 0x5fd56cc21650 | right: 0x5fd56cc216b0}}"];
-		node0x5fd56cc21f70 -> node0x5fd56cc21650
-	node0x5fd56cc21650 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5fd56cc21650 | type: 2 | value: x | parent: 0x5fd56cc21f70 | { left: (nil) | right: (nil)}}"];
-		node0x5fd56cc21f70 -> node0x5fd56cc216b0
-	node0x5fd56cc216b0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5fd56cc216b0 | type: 3 | value: 9.00 | parent: 0x5fd56cc21f70 | { left: (nil) | right: (nil)}}"];
-		node0x5fd56cc21fa0 -> node0x5fd56cc22090
-	node0x5fd56cc22090 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5fd56cc22090 | type: 0 | value: ; | parent: (nil) | { left: 0x5fd56cc22060 | right: 0x5fd56cc22180}}"];
-		node0x5fd56cc22090 -> node0x5fd56cc22060
-	node0x5fd56cc22060 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5fd56cc22060 | type: 4 | value: i | parent: 0x5fd56cc22090 | { left: 0x5fd56cc21fd0 | right: 0x5fd56cc22030}}"];
-		node0x5fd56cc22060 -> node0x5fd56cc21fd0
-	node0x5fd56cc21fd0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5fd56cc21fd0 | type: 1 | value: - | parent: 0x5fd56cc22060 | { left: 0x5fd56cc21770 | right: 0x5fd56cc217d0}}"];
-		node0x5fd56cc21fd0 -> node0x5fd56cc21770
-	node0x5fd56cc21770 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5fd56cc21770 | type: 3 | value: 7.00 | parent: 0x5fd56cc21fd0 | { left: (nil) | right: (nil)}}"];
-		node0x5fd56cc21fd0 -> node0x5fd56cc217d0
-	node0x5fd56cc217d0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5fd56cc217d0 | type: 3 | value: 8.00 | parent: 0x5fd56cc21fd0 | { left: (nil) | right: (nil)}}"];
-		node0x5fd56cc22060 -> node0x5fd56cc22030
-	node0x5fd56cc22030 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5fd56cc22030 | type: 1 | value: = | parent: 0x5fd56cc22060 | { left: 0x5fd56cc21830 | right: 0x5fd56cc22000}}"];
-		node0x5fd56cc22030 -> node0x5fd56cc21830
-	node0x5fd56cc21830 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5fd56cc21830 | type: 2 | value: x | parent: 0x5fd56cc22030 | { left: (nil) | right: (nil)}}"];
-		node0x5fd56cc22030 -> node0x5fd56cc22000
-	node0x5fd56cc22000 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5fd56cc22000 | type: 1 | value: - | parent: 0x5fd56cc22030 | { left: 0x5fd56cc21890 | right: 0x5fd56cc218f0}}"];
-		node0x5fd56cc22000 -> node0x5fd56cc21890
-	node0x5fd56cc21890 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5fd56cc21890 | type: 3 | value: 78.00 | parent: 0x5fd56cc22000 | { left: (nil) | right: (nil)}}"];
-		node0x5fd56cc22000 -> node0x5fd56cc218f0
-	node0x5fd56cc218f0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5fd56cc218f0 | type: 3 | value: 9.00 | parent: 0x5fd56cc22000 | { left: (nil) | right: (nil)}}"];
-		node0x5fd56cc22090 -> node0x5fd56cc22180
-	node0x5fd56cc22180 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5fd56cc22180 | type: 0 | value: ; | parent: (nil) | { left: 0x5fd56cc22150 | right: (nil)}}"];
-		node0x5fd56cc22180 -> node0x5fd56cc22150
-	node0x5fd56cc22150 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5fd56cc22150 | type: 1 | value: = | parent: 0x5fd56cc22180 | { left: 0x5fd56cc21950 | right: 0x5fd56cc22120}}"];
-		node0x5fd56cc22150 -> node0x5fd56cc21950
-	node0x5fd56cc21950 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5fd56cc21950 | type: 2 | value: x | parent: 0x5fd56cc22150 | { left: (nil) | right: (nil)}}"];
-		node0x5fd56cc22150 -> node0x5fd56cc22120
-	node0x5fd56cc22120 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5fd56cc22120 | type: 1 | value: + | parent: 0x5fd56cc22150 | { left: 0x5fd56cc219b0 | right: 0x5fd56cc220f0}}"];
-		node0x5fd56cc22120 -> node0x5fd56cc219b0
-	node0x5fd56cc219b0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5fd56cc219b0 | type: 3 | value: 5.00 | parent: 0x5fd56cc22120 | { left: (nil) | right: (nil)}}"];
-		node0x5fd56cc22120 -> node0x5fd56cc220f0
-	node0x5fd56cc220f0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5fd56cc220f0 | type: 1 | value: l | parent: 0x5fd56cc22120 | { left: 0x5fd56cc21aa0 | right: 0x5fd56cc220c0}}"];
-		node0x5fd56cc220f0 -> node0x5fd56cc21aa0
-	node0x5fd56cc21aa0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5fd56cc21aa0 | type: 3 | value: 9.00 | parent: 0x5fd56cc220f0 | { left: (nil) | right: (nil)}}"];
-		node0x5fd56cc220f0 -> node0x5fd56cc220c0
-	node0x5fd56cc220c0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5fd56cc220c0 | type: 3 | value: 0.00 | parent: 0x5fd56cc220f0 | { left: (nil) | right: (nil)}}"];
+	node0x5a852299f030 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f030 | type: 0 | value: ; | parent: (nil) | { left: 0x5a852299f000 | right: 0x5a852299f120}}"];
+		node0x5a852299f030 -> node0x5a852299f000
+	node0x5a852299f000 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f000 | type: 1 | value: = | parent: 0x5a852299f030 | { left: 0x5a852299e680 | right: 0x5a852299e6e0}}"];
+		node0x5a852299f000 -> node0x5a852299e680
+	node0x5a852299e680 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5a852299e680 | type: 2 | value: 0 | parent: 0x5a852299f000 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f000 -> node0x5a852299e6e0
+	node0x5a852299e6e0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5a852299e6e0 | type: 3 | value: 9.00 | parent: 0x5a852299f000 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f030 -> node0x5a852299f120
+	node0x5a852299f120 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f120 | type: 0 | value: ; | parent: (nil) | { left: 0x5a852299f0f0 | right: 0x5a852299f210}}"];
+		node0x5a852299f120 -> node0x5a852299f0f0
+	node0x5a852299f0f0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f0f0 | type: 4 | value: i | parent: 0x5a852299f120 | { left: 0x5a852299f060 | right: 0x5a852299f0c0}}"];
+		node0x5a852299f0f0 -> node0x5a852299f060
+	node0x5a852299f060 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f060 | type: 1 | value: - | parent: 0x5a852299f0f0 | { left: 0x5a852299e7a0 | right: 0x5a852299e800}}"];
+		node0x5a852299f060 -> node0x5a852299e7a0
+	node0x5a852299e7a0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5a852299e7a0 | type: 3 | value: 7.00 | parent: 0x5a852299f060 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f060 -> node0x5a852299e800
+	node0x5a852299e800 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5a852299e800 | type: 3 | value: 8.00 | parent: 0x5a852299f060 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f0f0 -> node0x5a852299f0c0
+	node0x5a852299f0c0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f0c0 | type: 1 | value: = | parent: 0x5a852299f0f0 | { left: 0x5a852299e860 | right: 0x5a852299f090}}"];
+		node0x5a852299f0c0 -> node0x5a852299e860
+	node0x5a852299e860 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5a852299e860 | type: 2 | value: 1 | parent: 0x5a852299f0c0 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f0c0 -> node0x5a852299f090
+	node0x5a852299f090 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f090 | type: 1 | value: - | parent: 0x5a852299f0c0 | { left: 0x5a852299e8c0 | right: 0x5a852299e920}}"];
+		node0x5a852299f090 -> node0x5a852299e8c0
+	node0x5a852299e8c0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5a852299e8c0 | type: 3 | value: 78.00 | parent: 0x5a852299f090 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f090 -> node0x5a852299e920
+	node0x5a852299e920 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5a852299e920 | type: 3 | value: 9.00 | parent: 0x5a852299f090 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f120 -> node0x5a852299f210
+	node0x5a852299f210 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f210 | type: 0 | value: ; | parent: (nil) | { left: 0x5a852299f1e0 | right: (nil)}}"];
+		node0x5a852299f210 -> node0x5a852299f1e0
+	node0x5a852299f1e0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f1e0 | type: 4 | value: w | parent: 0x5a852299f210 | { left: 0x5a852299f150 | right: 0x5a852299f1b0}}"];
+		node0x5a852299f1e0 -> node0x5a852299f150
+	node0x5a852299f150 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f150 | type: 1 | value: - | parent: 0x5a852299f1e0 | { left: 0x5a852299e9e0 | right: 0x5a852299ea40}}"];
+		node0x5a852299f150 -> node0x5a852299e9e0
+	node0x5a852299e9e0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5a852299e9e0 | type: 3 | value: 3.00 | parent: 0x5a852299f150 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f150 -> node0x5a852299ea40
+	node0x5a852299ea40 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5a852299ea40 | type: 3 | value: 0.00 | parent: 0x5a852299f150 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f1e0 -> node0x5a852299f1b0
+	node0x5a852299f1b0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f1b0 | type: 1 | value: = | parent: 0x5a852299f1e0 | { left: 0x5a852299eaa0 | right: 0x5a852299f180}}"];
+		node0x5a852299f1b0 -> node0x5a852299eaa0
+	node0x5a852299eaa0 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5a852299eaa0 | type: 2 | value: 0 | parent: 0x5a852299f1b0 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f1b0 -> node0x5a852299f180
+	node0x5a852299f180 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#E07082", label = "{indx: 0x5a852299f180 | type: 1 | value: + | parent: 0x5a852299f1b0 | { left: 0x5a852299eb00 | right: 0x5a852299eb60}}"];
+		node0x5a852299f180 -> node0x5a852299eb00
+	node0x5a852299eb00 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#A24892", label = "{indx: 0x5a852299eb00 | type: 2 | value: 0 | parent: 0x5a852299f180 | { left: (nil) | right: (nil)}}"];
+		node0x5a852299f180 -> node0x5a852299eb60
+	node0x5a852299eb60 [color = "#203D98", shape = Mrecord, style = filled, fillcolor = "#FAAA82", label = "{indx: 0x5a852299eb60 | type: 3 | value: 1.00 | parent: 0x5a852299f180 | { left: (nil) | right: (nil)}}"];
 }
