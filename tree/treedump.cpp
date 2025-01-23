@@ -1,11 +1,14 @@
 #include "treedump.hpp"
 #include "../frontend/utils.hpp"
 
-#define NODE_NUM_COLOR     "\"#FAAA82\""
-#define NODE_VAR_COLOR     "\"#A24892\""
-#define NODE_OP_COLOR      "\"#E07082\""
-#define NODE_BORDER_COLOR  "\"#203D98\""
-#define BACKGROUND_COLOR   "\"#FFE7A5\""
+#define NODE_NUM_COLOR     "\"#8EECF5\""
+#define NODE_VAR_COLOR     "\"#98F5E1\""
+#define NODE_OP_COLOR      "\"#CFBAF0\""
+#define NODE_DEF_COLOR     "\"#FFCFD2\""
+#define NODE_IDE_COLOR     "\"#F1C0E8\""
+#define NODE_FUNC_COLOR    "\"#A3C4F3\""
+#define NODE_BORDER_COLOR  "\"#5F5B6A\""
+#define BACKGROUND_COLOR   "\"#FFFEEC\""
 
 static const char* DOT_FILE_NAME       = "../frontend/debug/tree.dot";
 static const char* IMAGE_NAME          = "../frontend/debug/tree_image.svg";
@@ -61,11 +64,15 @@ void PrintDotNode(Node* node, FILE* stream) {
             node, node, node->type, (int)node->data, node->parent, node->left, node->right);
     }
     else if(node->type == DEF_TYPE) {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_OP_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_DEF_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
             node, node, node->type, (int)node->data, node->parent, node->left, node->right);
     }
     else if(node->type == IDE) {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_OP_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_IDE_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
+            node, node, node->type, (int)node->data, node->parent, node->left, node->right);
+    }
+    else if(node->type == FUNC_IDE) {
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_FUNC_COLOR ", label = \"{indx: %p | type: %d | value: %d | parent: %p | { left: %p | right: %p}}\"];\n",
             node, node, node->type, (int)node->data, node->parent, node->left, node->right);
     }
     else {
@@ -163,3 +170,8 @@ void InorderPrinting(Node* node, FILE* stream, int* code_error) {
 #undef NODE_NUM_COLOR
 #undef NODE_BORDER_COLOR
 #undef BACKGROUND_COLOR
+#undef NODE_DEF_COLOR
+#undef NODE_IDE_COLOR
+#undef NODE_VAR_COLOR
+#undef NODE_OP_COLOR
+#undef NODE_FUNC_COLOR
