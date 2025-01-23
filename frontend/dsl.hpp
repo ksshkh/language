@@ -10,6 +10,8 @@
 #define _DEF      NodeCtor(num_of_nodes, DEF_TYPE,  DEF,   NULL, NULL, NULL, code_error)
 #define _L_BR     NodeCtor(num_of_nodes, DEF_TYPE,  L_BR,  NULL, NULL, NULL, code_error)
 #define _R_BR     NodeCtor(num_of_nodes, DEF_TYPE,  R_BR,  NULL, NULL, NULL, code_error)
+#define _L_FBR    NodeCtor(num_of_nodes, DEF_TYPE,  L_FBR, NULL, NULL, NULL, code_error)
+#define _R_FBR    NodeCtor(num_of_nodes, DEF_TYPE,  R_FBR, NULL, NULL, NULL, code_error)
 
 #define _EQU(left, right) NodeCtor(num_of_nodes, OP,  EQU, left, right, NULL, code_error)
 #define _ADD(left, right) NodeCtor(num_of_nodes, OP,  ADD, left, right, NULL, code_error)
