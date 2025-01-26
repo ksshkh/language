@@ -232,70 +232,12 @@ Node* GetTree(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) 
     MY_ASSERT(tokens       != NULL, PTR_ERROR);
     MY_ASSERT(ip           != NULL, PTR_ERROR);
 
-    if(tokens[*ip]->data != EOT) {SNTX_ERR}
-    (*ip)++;
-
-    Node* val = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+    Node* val = GetOp(num_of_nodes, tokens, ip, code_error);
 
     if(tokens[*ip]->data != EOT) {SNTX_ERR}
     (*ip)++;
 
     return val;
-}
-
-Node* GetFunc(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
-
-    MY_ASSERT(num_of_nodes != NULL, PTR_ERROR);
-    MY_ASSERT(tokens       != NULL, PTR_ERROR);
-    MY_ASSERT(ip           != NULL, PTR_ERROR);
-
-    if(tokens[*ip]->data != DEF) {SNTX_ERR}
-    (*ip)++;
-
-    // Node* node = GetFuncName(num_of_nodes, tokens, ip, code_error);
-}
-
-Node* GetG(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
-
-    MY_ASSERT(num_of_nodes != NULL, PTR_ERROR);
-    MY_ASSERT(tokens       != NULL, PTR_ERROR);
-    MY_ASSERT(ip           != NULL, PTR_ERROR);
-
-    // if(tokens[*ip]->data != EOT) {SNTX_ERR}
-    // (*ip)++;
-
-    Node* node = GetOp(num_of_nodes, tokens, ip, code_error);
-    if(tokens[*ip]->data != SEM) {SNTX_ERR}
-    (*ip)++;
-
-    Node* left_node = node;
-    node = _SEM(left_node, NULL);
-
-    if(tokens[*ip]->data == EOT) {
-        (*ip)++;
-        return node;
-    }
-
-    if(tokens[*ip]->data == R_FBR) { // по моему это хуйня
-        // (*ip)++;
-        return node;
-    }
-
-    Node* right_node = GetG(num_of_nodes, tokens, ip, code_error);
-    node->right = right_node;
-
-    // while((Operations)tokens[*ip]->data == SEM) {
-
-    //     Node* right_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
-    //     Node* left_node  = node;
-
-    //     node = _SEM(left_node, right_node);
-    // }
-
-    // if(tokens[*ip]->data != EOT) {SNTX_ERR}
-    // (*ip)++;
-
-    return node;
 }
 
 Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
@@ -307,15 +249,44 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     if((Operations)tokens[*ip]->data == IF) {
         (*ip)++;
 
-        return GetIf(num_of_nodes, tokens, ip, code_error);
+        Node* node = GetIf(num_of_nodes, tokens, ip, code_error);
+
+        Node* right_node = GetOp(num_of_nodes, tokens, ip, code_error);
+        if(right_node) {
+            Node* left_node = node;
+
+            node = _SEM(left_node, right_node);
+        }
+        return node;
     }
     else if((Operations)tokens[*ip]->data == WHILE) {
         (*ip)++;
 
-        return GetWhile(num_of_nodes, tokens, ip, code_error);
+        Node* node = GetWhile(num_of_nodes, tokens, ip, code_error);
+
+        Node* right_node = GetOp(num_of_nodes, tokens, ip, code_error);
+        if(right_node) {
+            Node* left_node = node;
+
+            node = _SEM(left_node, right_node);
+        }
+        return node;
+    }
+    else if((Operations)tokens[*ip]->data != EOT && (Operations)tokens[*ip]->data != R_FBR){
+        Node* node = GetEqual(num_of_nodes, tokens, ip, code_error);
+
+        if((Operations)tokens[*ip]->data != SEM) {SNTX_ERR}
+        (*ip)++;
+
+        Node* right_node = GetOp(num_of_nodes, tokens, ip, code_error);
+        Node* left_node = node;
+
+        node = _SEM(left_node, right_node);
+
+        return node;
     }
     else {
-        return GetEqual(num_of_nodes, tokens, ip, code_error);
+        return NULL;
     }
 
 }
@@ -326,27 +297,25 @@ Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     MY_ASSERT(tokens       != NULL, PTR_ERROR);
     MY_ASSERT(ip           != NULL, PTR_ERROR);
 
-    //fix: works without brackets after if!!!!!! in GetBrackets change mb addandsub
-
     if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
     (*ip)++;
 
-    Node* left_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+    Node* cond_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
 
     if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
     (*ip)++;
 
-    // if((Operations)tokens[*ip]->data != L_FBR) {SNTX_ERR}
-    // (*ip)++;
-    // фигня потом что не создает ; надо отслеживать ее в другом месте
-    Node* right_node = GetFBrackets(num_of_nodes, tokens, ip, code_error);
-    // if((Operations)tokens[*ip]->data != SEM) {SNTX_ERR}
-    // (*ip)++;
+    if((Operations)tokens[*ip]->data != L_FBR) {SNTX_ERR}
+    (*ip)++;
 
-    // if((Operations)tokens[*ip]->data != R_FBR) {SNTX_ERR}
-    // (*ip)++;
+    Node* node = GetOp(num_of_nodes, tokens, ip, code_error);
 
-    return _IF(left_node, right_node);
+    if((Operations)tokens[*ip]->data != R_FBR) {SNTX_ERR}
+    (*ip)++;
+
+    Node* res_node = _IF(cond_node, node);
+
+    return res_node;
 }
 
 Node* GetWhile(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
@@ -358,14 +327,22 @@ Node* GetWhile(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error)
     if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
     (*ip)++;
 
-    Node* left_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+    Node* cond_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
 
     if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
     (*ip)++;
 
-    Node* right_node = GetEqual(num_of_nodes, tokens, ip, code_error);
+    if((Operations)tokens[*ip]->data != L_FBR) {SNTX_ERR}
+    (*ip)++;
 
-    return _WHILE(left_node, right_node);
+    Node* node = GetOp(num_of_nodes, tokens, ip, code_error);
+
+    if((Operations)tokens[*ip]->data != R_FBR) {SNTX_ERR}
+    (*ip)++;
+
+    Node* res_node = _WHILE(cond_node, node);
+
+    return res_node;
 }
 
 Node* GetEqual(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
@@ -529,29 +506,6 @@ Node* GetBrackets(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_err
         Node* node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
 
         if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
-        (*ip)++;
-
-        return node;
-    }
-    else if(tokens[*ip]->type == VAR) {
-        return GetVar(num_of_nodes, tokens, ip, code_error);
-    }
-    else {
-        return GetNum(num_of_nodes, tokens, ip, code_error);
-    }
-}
-
-Node* GetFBrackets(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
-
-    MY_ASSERT(num_of_nodes != NULL, PTR_ERROR);
-    MY_ASSERT(tokens       != NULL, PTR_ERROR);
-    MY_ASSERT(ip           != NULL, PTR_ERROR);
-
-    if((Operations)tokens[*ip]->data == L_FBR) {
-        (*ip)++;
-        Node* node = GetG(num_of_nodes, tokens, ip, code_error);
-
-        if((Operations)tokens[*ip]->data != R_FBR) {SNTX_ERR}
         (*ip)++;
 
         return node;

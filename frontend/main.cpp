@@ -22,7 +22,7 @@ int main(void) {
     }
 
     size_t ip = 0;
-    tree.root = GetG(&(tree.num_of_nodes), tree.tokens, &ip, &code_error);
+    tree.root = GetTree(&(tree.num_of_nodes), tree.tokens, &ip, &code_error);
     DotTreeDump(&tree, &code_error);
 
     // TreeDtor(&tree, &code_error);
