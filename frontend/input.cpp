@@ -285,26 +285,22 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
         (*ip)++;
 
         Node* node = GetIf(num_of_nodes, tokens, ip, code_error);
-
         Node* right_node = GetOp(num_of_nodes, tokens, ip, code_error);
-        if(right_node) {
-            Node* left_node = node;
+        Node* left_node = node;
 
-            node = _SEM(left_node, right_node);
-        }
+        node = _SEM(left_node, right_node);
+        
         return node;
     }
     else if((Operations)tokens[*ip]->data == WHILE) {
         (*ip)++;
 
         Node* node = GetWhile(num_of_nodes, tokens, ip, code_error);
-
         Node* right_node = GetOp(num_of_nodes, tokens, ip, code_error);
-        if(right_node) {
-            Node* left_node = node;
+        Node* left_node = node;
 
-            node = _SEM(left_node, right_node);
-        }
+        node = _SEM(left_node, right_node);
+
         return node;
     }
     else if((Operations)tokens[*ip]->data != EOT && (Operations)tokens[*ip]->data != R_FBR){
