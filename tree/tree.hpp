@@ -62,10 +62,13 @@ enum Operations {
     BE    = '<=',
     ABOVE = '>',
     BELOW = '<',
+    OR    = '|',
+    AND   = '&',
 
     IF    = 'i',
     WHILE = 'w',
     DEF   = 'd',
+    ELSE  = 'e',
 };
 
 enum Vars {

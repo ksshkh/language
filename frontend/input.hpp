@@ -50,6 +50,7 @@ Node* GetMulAndDiv(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_er
 Node* GetDeg      (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
 Node* GetUnaryOp  (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
 Node* GetBrackets (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
+Node* GetCond     (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
 Node* GetComp     (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
 Node* GetNum      (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
 Node* GetVar      (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);

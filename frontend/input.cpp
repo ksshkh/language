@@ -11,7 +11,8 @@ Token tkns[NUM_OF_TOKENS] = {{"sin",     SIN},
                              {"ln",       LN},
                              {"if",       IF},
                              {"while", WHILE},
-                             {"def",     DEF}};
+                             {"def",     DEF},
+                             {"else",   ELSE}};
 
 void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* code_error) {
 
@@ -84,6 +85,18 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
             data_base_ip++;
             if(tree->data_base[data_base_ip] != '=') {TOKEN_NO_EXIST}
             tree->tokens[tokens_ip] = _NEQ(NULL, NULL);
+            data_base_ip++;
+        }
+        else if(tree->data_base[data_base_ip] == '|') {
+            data_base_ip++;
+            if(tree->data_base[data_base_ip] != '|') {TOKEN_NO_EXIST}
+            tree->tokens[tokens_ip] = _OR(NULL, NULL);
+            data_base_ip++;
+        }
+        else if(tree->data_base[data_base_ip] == '&') {
+            data_base_ip++;
+            if(tree->data_base[data_base_ip] != '&') {TOKEN_NO_EXIST}
+            tree->tokens[tokens_ip] = _AND(NULL, NULL);
             data_base_ip++;
         }
         else if(tree->data_base[data_base_ip] == '>') {
@@ -289,7 +302,7 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
         Node* left_node = node;
 
         node = _SEM(left_node, right_node);
-        
+
         return node;
     }
     else if((Operations)tokens[*ip]->data == WHILE) {
@@ -331,7 +344,7 @@ Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
     (*ip)++;
 
-    Node* cond_node = GetComp(num_of_nodes, tokens, ip, code_error);
+    Node* cond_node = GetCond(num_of_nodes, tokens, ip, code_error);
 
     if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
     (*ip)++;
@@ -358,7 +371,7 @@ Node* GetWhile(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error)
     if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
     (*ip)++;
 
-    Node* cond_node = GetComp(num_of_nodes, tokens, ip, code_error);
+    Node* cond_node = GetCond(num_of_nodes, tokens, ip, code_error);
 
     if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
     (*ip)++;
@@ -547,6 +560,40 @@ Node* GetBrackets(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_err
     else {
         return GetNum(num_of_nodes, tokens, ip, code_error);
     }
+}
+
+Node* GetCond(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
+
+    MY_ASSERT(num_of_nodes != NULL, PTR_ERROR);
+    MY_ASSERT(tokens       != NULL, PTR_ERROR);
+    MY_ASSERT(ip           != NULL, PTR_ERROR);
+
+    Node* node = GetComp(num_of_nodes, tokens, ip, code_error);
+
+    while((Operations)tokens[*ip]->data == AND || (Operations)tokens[*ip]->data == OR) {
+        Operations op = (Operations)tokens[*ip]->data;
+        (*ip)++;
+
+        Node* right_node = GetComp(num_of_nodes, tokens, ip, code_error);
+        Node* left_node  = node;
+
+        switch(op) {
+            case AND: {
+                node = _AND(left_node, right_node);
+                break;
+            }
+            case OR: {
+                node = _OR(left_node, right_node);
+                break;
+            }
+            default: {
+                (*ip)++;
+                break;
+            }
+        }
+    }
+
+    return node;
 }
 
 Node* GetComp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {

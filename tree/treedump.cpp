@@ -85,6 +85,14 @@ void PrintDotNode(Node* node, FILE* stream) {
                 fprintf(stream, "&lt;=");
                 break;
             }
+            case AND: {
+                fprintf(stream, "&&");
+                break;
+            }
+            case OR: {
+                fprintf(stream, "\\| \\|");
+                break;
+            }
             case COS: {
                 fprintf(stream, "cos");
                 break;
