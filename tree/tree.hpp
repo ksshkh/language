@@ -54,7 +54,14 @@ enum Operations {
     L_FBR = '{',
     R_FBR = '}',
     SEM   = ';',
-    EQU   = '=',
+    VAR_S = '=',
+
+    EQU   = '==',
+    NEQ   = '!=',
+    AE    = '>=',
+    BE    = '<=',
+    ABOVE = '>',
+    BELOW = '<',
 
     IF    = 'i',
     WHILE = 'w',

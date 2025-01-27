@@ -56,28 +56,80 @@ void PrintDotNode(Node* node, FILE* stream) {
     if(!node) return;
 
     if(node->type == NUM) {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_NUM_COLOR ", label = \"{indx: %p | type: %d | value: %.2lf | parent: %p | { left: %p | right: %p}}\"];\n",
-            node, node, node->type, node->data, node->parent, node->left, node->right);
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_NUM_COLOR ", label = \"{%.2lf}\"];\n", node, node->data);
     }
     else if(node->type == OP) {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_OP_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
-            node, node, node->type, (int)node->data, node->parent, node->left, node->right);
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_OP_COLOR ", label = \"{", node);
+        switch((Operations)node->data) {
+            case EQU: {
+                fprintf(stream, "==");
+                break;
+            }
+            case NEQ: {
+                fprintf(stream, "!=");
+                break;
+            }
+            case ABOVE: {
+                fprintf(stream, "&gt;");
+                break;
+            }
+            case BELOW: {
+                fprintf(stream, "&lt;");
+                break;
+            }
+            case AE: {
+                fprintf(stream, "&gt;=");
+                break;
+            }
+            case BE: {
+                fprintf(stream, "&lt;=");
+                break;
+            }
+            case COS: {
+                fprintf(stream, "cos");
+                break;
+            }
+            case SIN: {
+                fprintf(stream, "sin");
+                break;
+            }
+            case LN: {
+                fprintf(stream, "ln");
+                break;
+            }
+            default: {
+                fprintf(stream, "%c", (char)node->data);
+                break;
+            }
+        }
+        fprintf(stream, "}\"];\n");
     }
     else if(node->type == DEF_TYPE) {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_DEF_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
-            node, node, node->type, (int)node->data, node->parent, node->left, node->right);
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_DEF_COLOR ", label = \"{%c}\"];\n", node, (int)node->data);
     }
     else if(node->type == IDE) {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_IDE_COLOR ", label = \"{indx: %p | type: %d | value: %c | parent: %p | { left: %p | right: %p}}\"];\n",
-            node, node, node->type, (int)node->data, node->parent, node->left, node->right);
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_IDE_COLOR ", label = \"{", node);
+        switch((Operations)node->data) {
+            case IF: {
+                fprintf(stream, "if");
+                break;
+            }
+            case WHILE: {
+                fprintf(stream, "while");
+                break;
+            }
+            default: {
+                fprintf(stream, "%c", (char)node->data);
+                break;
+            }
+        }
+        fprintf(stream, "}\"];\n");
     }
     else if(node->type == FUNC_IDE) {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_FUNC_COLOR ", label = \"{indx: %p | type: %d | value: %d | parent: %p | { left: %p | right: %p}}\"];\n",
-            node, node, node->type, (int)node->data, node->parent, node->left, node->right);
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_FUNC_COLOR ", label = \"{%d}\"];\n", node, (int)node->data);
     }
     else {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_VAR_COLOR ", label = \"{indx: %p | type: %d | value: %d | parent: %p | { left: %p | right: %p}}\"];\n",
-            node, node, node->type, (int)node->data, node->parent, node->left, node->right);
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_VAR_COLOR ", label = \"{%d}\"];\n", node, (int)node->data);
     }
 
 

@@ -3,6 +3,9 @@
 #define SNTX_ERR fprintf(stderr, "syntax error: %c (line: %d)\n", (char)tokens[*ip]->data, __LINE__); \
                  exit(0);
 
+#define TOKEN_NO_EXIST fprintf(stderr, "token error: %c (line %d)\n", (char)tree->data_base[data_base_ip], __LINE__); \
+                       exit(0);
+
 Token tkns[NUM_OF_TOKENS] = {{"sin",     SIN},
                              {"cos",     COS},
                              {"ln",       LN},
@@ -47,8 +50,8 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
             tree->tokens[tokens_ip] = _SEM(NULL, NULL);
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == '=') {
-            tree->tokens[tokens_ip] = _EQU(NULL, NULL);
+        else if(tree->data_base[data_base_ip] == '=' && data_base_ip < tree->size_data_base - 1 && tree->data_base[data_base_ip + 1] != '=') {
+            tree->tokens[tokens_ip] = _VAR_S(NULL, NULL);
             data_base_ip++;
         }
         else if(tree->data_base[data_base_ip] == '+') {
@@ -70,6 +73,38 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
         else if(tree->data_base[data_base_ip] == '^') {
             tree->tokens[tokens_ip] = _DEG(NULL, NULL);
             data_base_ip++;
+        }
+        else if(tree->data_base[data_base_ip] == '=') {
+            data_base_ip++;
+            if(tree->data_base[data_base_ip] != '=') {TOKEN_NO_EXIST}
+            tree->tokens[tokens_ip] = _EQU(NULL, NULL);
+            data_base_ip++;
+        }
+        else if(tree->data_base[data_base_ip] == '!') {
+            data_base_ip++;
+            if(tree->data_base[data_base_ip] != '=') {TOKEN_NO_EXIST}
+            tree->tokens[tokens_ip] = _NEQ(NULL, NULL);
+            data_base_ip++;
+        }
+        else if(tree->data_base[data_base_ip] == '>') {
+            if(tree->data_base[data_base_ip + 1] == '=') {
+                tree->tokens[tokens_ip] = _AE(NULL, NULL);
+                data_base_ip += 2;
+            }
+            else {
+                tree->tokens[tokens_ip] = _ABO(NULL, NULL);
+                data_base_ip++;
+            }
+        }
+        else if(tree->data_base[data_base_ip] == '<') {
+            if(tree->data_base[data_base_ip + 1] == '=') {
+                tree->tokens[tokens_ip] = _BE(NULL, NULL);
+                data_base_ip += 2;
+            }
+            else {
+                tree->tokens[tokens_ip] = _BEL(NULL, NULL);
+                data_base_ip++;
+            }
         }
         else if('0' <= tree->data_base[data_base_ip] && tree->data_base[data_base_ip] <= '9') {
 
@@ -273,7 +308,7 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
         return node;
     }
     else if((Operations)tokens[*ip]->data != EOT && (Operations)tokens[*ip]->data != R_FBR){
-        Node* node = GetEqual(num_of_nodes, tokens, ip, code_error);
+        Node* node = GetAssign(num_of_nodes, tokens, ip, code_error);
 
         if((Operations)tokens[*ip]->data != SEM) {SNTX_ERR}
         (*ip)++;
@@ -300,7 +335,7 @@ Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
     (*ip)++;
 
-    Node* cond_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+    Node* cond_node = GetComp(num_of_nodes, tokens, ip, code_error);
 
     if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
     (*ip)++;
@@ -327,7 +362,7 @@ Node* GetWhile(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error)
     if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
     (*ip)++;
 
-    Node* cond_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+    Node* cond_node = GetComp(num_of_nodes, tokens, ip, code_error);
 
     if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
     (*ip)++;
@@ -345,7 +380,7 @@ Node* GetWhile(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error)
     return res_node;
 }
 
-Node* GetEqual(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
+Node* GetAssign(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
 
     MY_ASSERT(num_of_nodes != NULL, PTR_ERROR);
     MY_ASSERT(tokens       != NULL, PTR_ERROR);
@@ -354,11 +389,11 @@ Node* GetEqual(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error)
     if(tokens[*ip]->type == VAR) {
         Node* left_node  = GetVar(num_of_nodes, tokens, ip, code_error);
 
-        if(tokens[*ip]->data != EQU) {SNTX_ERR}
+        if(tokens[*ip]->data != VAR_S) {SNTX_ERR}
         (*ip)++;
 
         Node* right_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
-        return _EQU(left_node, right_node);
+        return _VAR_S(left_node, right_node);
     }
 
     return GetAddAndSub(num_of_nodes, tokens, ip, code_error);
@@ -515,6 +550,44 @@ Node* GetBrackets(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_err
     }
     else {
         return GetNum(num_of_nodes, tokens, ip, code_error);
+    }
+}
+
+Node* GetComp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
+
+    MY_ASSERT(num_of_nodes != NULL, PTR_ERROR);
+    MY_ASSERT(tokens       != NULL, PTR_ERROR);
+    MY_ASSERT(ip           != NULL, PTR_ERROR);
+
+    Node* left_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+
+    Operations op = (Operations)tokens[*ip]->data;
+    (*ip)++;
+
+    Node* right_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+
+    switch(op) {
+        case EQU: {
+            return _EQU(left_node, right_node);
+        }
+        case NEQ: {
+            return _NEQ(left_node, right_node);
+        }
+        case AE: {
+            return _AE(left_node, right_node);
+        }
+        case BE: {
+            return _BE(left_node, right_node);
+        }
+        case ABOVE: {
+            return _ABO(left_node, right_node);
+        }
+        case BELOW: {
+            return _BEL(left_node, right_node);
+        }
+        default: {
+            SNTX_ERR
+        }
     }
 }
 
