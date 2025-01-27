@@ -113,7 +113,18 @@ void PrintDotNode(Node* node, FILE* stream) {
         fprintf(stream, "}\"];\n");
     }
     else if(node->type == DEF_TYPE) {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_DEF_COLOR ", label = \"{%c}\"];\n", node, (int)node->data);
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_DEF_COLOR ", label = \"{", node);
+        switch((Operations)node->data) {
+            case DEF_OP: {
+                fprintf(stream, "no op");
+                break;
+            }
+            default: {
+                fprintf(stream, "%c", (char)node->data);
+                break;
+            }
+        }
+        fprintf(stream, "}\"];\n");
     }
     else if(node->type == IDE) {
         fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_IDE_COLOR ", label = \"{", node);
@@ -124,6 +135,10 @@ void PrintDotNode(Node* node, FILE* stream) {
             }
             case WHILE: {
                 fprintf(stream, "while");
+                break;
+            }
+            case ELSE: {
+                fprintf(stream, "else");
                 break;
             }
             default: {

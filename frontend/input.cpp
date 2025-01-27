@@ -194,6 +194,10 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
                     tree->tokens[tokens_ip] = _WHILE(NULL, NULL);
                     break;
                 }
+                case ELSE: {
+                    tree->tokens[tokens_ip] = _ELSE(NULL, NULL);
+                    break;
+                }
                 case DEF: {
                     tree->tokens[tokens_ip] = _DEF;
                     break;
@@ -357,7 +361,24 @@ Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     if((Operations)tokens[*ip]->data != R_FBR) {SNTX_ERR}
     (*ip)++;
 
-    Node* res_node = _IF(cond_node, node);
+    Node* if_node  = _DEF_OP(cond_node, node);
+    Node* else_node = NULL;
+
+    if((Operations)tokens[*ip]->data == ELSE) {
+        (*ip)++;
+
+        if((Operations)tokens[*ip]->data != L_FBR) {SNTX_ERR}
+        (*ip)++;
+
+        else_node = GetOp(num_of_nodes, tokens, ip, code_error);
+        Node* el_node = else_node;
+        else_node = _ELSE(el_node, NULL);
+
+        if((Operations)tokens[*ip]->data != R_FBR) {SNTX_ERR}
+        (*ip)++;
+    }
+
+    Node* res_node = _IF(if_node, else_node);
 
     return res_node;
 }
