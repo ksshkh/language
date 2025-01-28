@@ -1,5 +1,5 @@
 #include "treedump.hpp"
-#include "../frontend/utils.hpp"
+#include "../utils.hpp"
 
 #define NODE_NUM_COLOR     "\"#8EECF5\""
 #define NODE_VAR_COLOR     "\"#98F5E1\""
@@ -197,12 +197,57 @@ void PrintTree(Tree* tree, int* code_error) {
 
     TREE_ASSERT(tree);
 
-    FILE* printout = fopen(INPUT_FILE, "w");
+    FILE* printout = fopen(OUTPUT_FILE, "w");
     MY_ASSERT(printout != NULL, FOPEN_ERROR);
 
-    InorderPrinting(tree->root, printout, code_error);
+    PreorderPrinting(tree->root, printout, code_error);
 
     MY_ASSERT(fclose(printout) == 0, FCLOSE_ERROR);
+}
+
+void PreorderPrinting(Node* node, FILE* stream, int* code_error) {
+
+    MY_ASSERT(stream != NULL, FILE_ERROR);
+
+    if(!node) {
+        fprintf(stream, "_ ");
+        return;
+    }
+
+    fprintf(stream, "(");
+
+    fprintf(stream, "%d ", node->type);
+    if (node->type == NUM) {
+        fprintf(stream, "%.2lf ", node->data);
+    }
+    else {
+        fprintf(stream, "%d ", (int)node->data);
+    }
+    // else {
+    //     switch((Operations)node->data) {
+    //         case SIN: {
+    //             fprintf(stream, " sin ");
+    //             break;
+    //         }
+    //         case COS: {
+    //             fprintf(stream, " cos ");
+    //             break;
+    //         }
+    //         case LN: {
+    //             fprintf(stream, " ln ");
+    //             break;
+    //         }
+    //         default: {
+    //             fprintf(stream, " %c ", (int)node->data);
+    //         }
+    //     }
+    // }
+
+    PreorderPrinting(node->left, stream, code_error);
+    PreorderPrinting(node->right, stream, code_error);
+
+    fprintf(stream, ")");
+
 }
 
 void InorderPrinting(Node* node, FILE* stream, int* code_error) {

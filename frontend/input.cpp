@@ -12,6 +12,8 @@ Token tkns[NUM_OF_TOKENS] = {{"sin",       SIN},
                              {"else",     ELSE},
                              {"else_if", EL_IF}};
 
+static const char* TABLE_NAME_FILE = "../frontend/table_name.txt";
+
 void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* code_error) {
 
     MY_ASSERT(tree != NULL, PTR_ERROR);
@@ -160,10 +162,10 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
                         AddNewName(tbl_nm, begin, length, code_error);
 
                         if(tokens_ip && (Operations)tree->tokens[tokens_ip - 1]->data == DEF) {
-                            tree->tokens[tokens_ip] = _FUNC_IDE(tbl_nm->free_id - 1);
+                            tree->tokens[tokens_ip] = _FUNC_IDE((TreeElem)(tbl_nm->free_id - 1));
                         }
                         else {
-                            tree->tokens[tokens_ip] = _VAR(tbl_nm->free_id - 1);
+                            tree->tokens[tokens_ip] = _VAR((TreeElem)(tbl_nm->free_id - 1));
                         }
                     }
                     break;
@@ -274,4 +276,23 @@ void TableNameDtor(TableName* tbl_nm, int* code_error) {
 
     free(tbl_nm->table_name);
     tbl_nm->table_name = NULL;
+}
+
+void PrintTableName(TableName* tbl_nm, int* code_error) {
+
+    MY_ASSERT(tbl_nm != NULL, PTR_ERROR);
+
+    FILE* printout = fopen(TABLE_NAME_FILE, "w");
+    MY_ASSERT(printout != NULL, FOPEN_ERROR);
+
+    for(size_t i = 0; i < tbl_nm->free_id; i++) {
+        fprintf(printout, "%ld ", i);
+        for(size_t j = 0; j < tbl_nm->table_name[i].length; j++) {
+            fprintf(printout, "%c", *(tbl_nm->table_name[i].name + j));
+        }
+        fprintf(printout, "\n");
+    }
+
+    MY_ASSERT(fclose(printout) == 0, FCLOSE_ERROR);
+
 }

@@ -8,10 +8,11 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "../frontend/errors.hpp"
-#include "../frontend/utils.hpp"
+#include "../errors.hpp"
+#include "../utils.hpp"
 
-static const char* INPUT_FILE = "../input.txt";
+static const char* INPUT_FILE  = "../input.txt";
+static const char* OUTPUT_FILE = "../tree.txt";
 
 #define DEBUG
 

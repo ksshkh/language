@@ -13,6 +13,8 @@ void HtmlDump(int *code_error);
 
 void PrintTree(Tree* tree, int* code_error);
 
+void PreorderPrinting(Node* node, FILE* stream, int* code_error);
+
 void InorderPrinting(Node* node, FILE* stream, int* code_error);
 
 #endif // TREEDUMP_HPP

@@ -6,7 +6,7 @@
 
 #include "../tree/tree.hpp"
 #include "../tree/treedump.hpp"
-#include "dsl.hpp"
+#include "../dsl.hpp"
 
 const int TOKEN_NAME_LENGTH = 10;
 const int NUM_OF_TOKENS     = 10;
@@ -39,5 +39,7 @@ void  TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* co
 int FindName(TableName* tbl_nm, char* name, size_t length, int* code_error);
 
 Operations FindToken(char* word, size_t length, int* code_error);
+
+void PrintTableName(TableName* tbl_nm, int* code_error);
 
 #endif // INPUT_HPP

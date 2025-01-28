@@ -1,7 +1,7 @@
 #include "tree.hpp"
-#include "../frontend/utils.hpp"
+#include "../utils.hpp"
 #include "treedump.hpp"
-#include "../frontend/input.hpp"
+#include "../frontend/recursivedes.hpp"
 
 #define OP_CHECK(data)  data == ADD || data == SUB || data == MUL || data == DIV || data == DEG || !strncmp(&data, "sin", 3) || !strncmp(&data, "cos", 3) || !strncmp(&data, "ln", 2)
 #define VAR_CHECK(data) data == X

@@ -2,6 +2,7 @@
 #define UTILS_HPP
 
 #include <math.h>
+#include <sys/stat.h>
 
 #include "errors.hpp"
 #include "../tree/tree.hpp"
