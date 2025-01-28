@@ -28,11 +28,7 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
             data_base_ip++;
         }
 
-        if(tree->data_base[data_base_ip] == EOT) {
-            tree->tokens[tokens_ip] = _EOT;
-            data_base_ip++;
-        }
-        else if(tree->data_base[data_base_ip] == L_BR) {
+        if(tree->data_base[data_base_ip] == L_BR) {
             tree->tokens[tokens_ip] = _L_BR;
             data_base_ip++;
         }
@@ -213,7 +209,7 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
             }
         }
     }
-
+    tree->tokens[tokens_ip] = _EOT;
 }
 
 Operations FindToken(char* word, size_t length, int* code_error) {
