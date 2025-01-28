@@ -6,14 +6,14 @@
 #define OP_CHECK(data)  data == ADD || data == SUB || data == MUL || data == DIV || data == DEG || !strncmp(&data, "sin", 3) || !strncmp(&data, "cos", 3) || !strncmp(&data, "ln", 2)
 #define VAR_CHECK(data) data == X
 
-void TreeCtor(Tree* tree, int* code_error) {
+void TreeCtor(Tree* tree, const char* input_file_name, int* code_error) {
 
     MY_ASSERT(tree != NULL, PTR_ERROR);
 
     tree->num_of_nodes = 0;
     tree->root = NULL;
 
-    tree->data_base = ReadInBuff(INPUT_FILE, &(tree->size_data_base), code_error);
+    tree->data_base = ReadInBuff(input_file_name, &(tree->size_data_base), code_error);
     MY_ASSERT(tree->data_base != NULL, PTR_ERROR);
 
     tree->tokens = (Node**)calloc(tree->size_data_base, sizeof(Node*));
@@ -132,36 +132,35 @@ void ReadTree(Tree* tree, int* code_error) {
     MY_ASSERT(tree != NULL, PTR_ERROR);
     MY_ASSERT(tree->data_base != NULL, PTR_ERROR);
 
-    if(*(tree->data_base) == '$') {
-        size_t ip = 0;
-        // TokensParcing(tree, &(tree->num_of_nodes), code_error);
-        tree->root = GetTree(&(tree->num_of_nodes), tree->tokens, &ip, code_error);
-    }
-    else {
-        char* copy_data_base = tree->data_base;
+    char* copy_data_base = tree->data_base;
 
-        tree->root = ReadNode(tree, tree->root, NULL, code_error);
+    tree->root = ReadNode(tree, tree->root, NULL, code_error);
 
-        tree->data_base = copy_data_base;
-    }
+    tree->data_base = copy_data_base;
 
 }
 
 Node* ReadNode(Tree* tree, Node* node, Node* parent, int* code_error) {
 
-    node = NodeCtor(&(tree->num_of_nodes), DEF_TYPE, DEF_VAL, NULL, NULL, parent, code_error);
-
     while(isspace(*(tree->data_base)) || *(tree->data_base) == '\0') {
         tree->data_base++;
     }
 
-    if(*(++tree->data_base) == '(') {
-        node->left  = ReadNode(tree, node->left,  node, code_error);
+    if(*(tree->data_base) == ')') {
+        return node;
     }
 
-    while(isspace(*(tree->data_base))) {
+    if(*(tree->data_base) == '_') {
+        tree->data_base++;
+        return NULL;
+    }
+
+    while(isspace(*(tree->data_base)) || *(tree->data_base) == '(') {
         tree->data_base++;
     }
+
+    Type type = (Type)(*(tree->data_base) - '0');
+    tree->data_base += 2;
 
     char* data = tree->data_base;
 
@@ -171,40 +170,17 @@ Node* ReadNode(Tree* tree, Node* node, Node* parent, int* code_error) {
 
     *(tree->data_base) = '\0';
 
-    Type type = DEF_TYPE;
+    TreeElem value = strtod(data, NULL);
 
-    double arg = 0;
+    node = NodeCtor(&(tree->num_of_nodes), type, value, NULL, NULL, parent, code_error);
 
-    if(OP_CHECK(*data)) {
-        type = OP;
-        arg = (double)(int)(*data);
-    }
-    else if(VAR_CHECK(*data)) {
-        type = VAR;
-        arg = (double)(int)(*data);
-    }
-    else {
-        type = NUM;
-        arg = strtod(data, NULL);
-    }
-
-    node->data = arg;
-    node->type = type;
-
-    if(node->type == NUM || node->type == VAR) {
-        while(*(tree->data_base) == ')' || isspace(*(tree->data_base)) || *(tree->data_base) == '\0') {
-            tree->data_base++;
-        }
-        return node;
-    }
+    node->left = ReadNode(tree, node->left, node, code_error);
 
     while(*(tree->data_base) == ')' || isspace(*(tree->data_base))) {
         tree->data_base++;
     }
 
-    if(*(++tree->data_base) == '(') {
-        node->right  = ReadNode(tree, node->right,  node, code_error);
-    }
+    node->right = ReadNode(tree, node->right, node, code_error);
 
     return node;
 }

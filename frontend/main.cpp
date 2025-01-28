@@ -1,11 +1,13 @@
 #include "recursivedes.hpp"
 
+static const char* INPUT_FILE = "../input.txt";
+
 int main(void) {
     Tree tree = {};
     TableName tbl_nm = {};
     int code_error = 0;
 
-    TreeCtor(&tree, &code_error);
+    TreeCtor(&tree, INPUT_FILE, &code_error);
     TableNameCtor(&tbl_nm, &code_error);
 
     TokensParcing(&tree, &(tree.num_of_nodes), &tbl_nm, &code_error);

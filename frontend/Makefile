@@ -29,6 +29,6 @@ clean:
 	rm -rf ../*.o
 	rm -rf ../*/*.o
 	rm -rf front
-	rm -rf ./debug/tree.dot
-	rm -rf ./debug/*.svg
-	rm -rf ./debug/*.html
+	rm -rf ../debug/tree.dot
+	rm -rf ../debug/*.svg
+	rm -rf ../debug/*.html

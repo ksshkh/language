@@ -11,9 +11,6 @@
 #include "../errors.hpp"
 #include "../utils.hpp"
 
-static const char* INPUT_FILE  = "../input.txt";
-static const char* OUTPUT_FILE = "../tree.txt";
-
 #define DEBUG
 
 typedef double TreeElem;
@@ -117,7 +114,7 @@ struct Tree {
     #define TREE_ASSERT(...)
 #endif
 
-void TreeCtor(Tree* tree, int* code_error);
+void TreeCtor(Tree* tree, const char* input_file_name, int* code_error);
 
 Node* NodeCtor(size_t* num_of_nodes, Type type, TreeElem data, Node* left, Node* right, Node* parent, int* code_error);
 
