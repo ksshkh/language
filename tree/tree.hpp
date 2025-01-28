@@ -69,6 +69,7 @@ enum Operations {
     WHILE = 'w',
     DEF   = 'd',
     ELSE  = 'e',
+    EL_IF = 'f',
 };
 
 enum Vars {

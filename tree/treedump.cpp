@@ -141,6 +141,10 @@ void PrintDotNode(Node* node, FILE* stream) {
                 fprintf(stream, "else");
                 break;
             }
+            case EL_IF: {
+                fprintf(stream, "else_if");
+                break;
+            }
             default: {
                 fprintf(stream, "%c", (char)node->data);
                 break;

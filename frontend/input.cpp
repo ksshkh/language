@@ -6,13 +6,14 @@
 #define TOKEN_NO_EXIST fprintf(stderr, "token error: %c (line %d)\n", (char)tree->data_base[data_base_ip], __LINE__); \
                        exit(0);
 
-Token tkns[NUM_OF_TOKENS] = {{"sin",     SIN},
-                             {"cos",     COS},
-                             {"ln",       LN},
-                             {"if",       IF},
-                             {"while", WHILE},
-                             {"def",     DEF},
-                             {"else",   ELSE}};
+Token tkns[NUM_OF_TOKENS] = {{"sin",       SIN},
+                             {"cos",       COS},
+                             {"ln",         LN},
+                             {"if",         IF},
+                             {"while",   WHILE},
+                             {"def",       DEF},
+                             {"else",     ELSE},
+                             {"else_if", EL_IF}};
 
 void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* code_error) {
 
@@ -27,51 +28,51 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
             data_base_ip++;
         }
 
-        if(tree->data_base[data_base_ip] == '$') {
+        if(tree->data_base[data_base_ip] == EOT) {
             tree->tokens[tokens_ip] = _EOT;
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == '(') {
+        else if(tree->data_base[data_base_ip] == L_BR) {
             tree->tokens[tokens_ip] = _L_BR;
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == ')') {
+        else if(tree->data_base[data_base_ip] == R_BR) {
             tree->tokens[tokens_ip] = _R_BR;
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == '{') {
+        else if(tree->data_base[data_base_ip] == L_FBR) {
             tree->tokens[tokens_ip] = _L_FBR;
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == '}') {
+        else if(tree->data_base[data_base_ip] == R_FBR) {
             tree->tokens[tokens_ip] = _R_FBR;
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == ';') {
+        else if(tree->data_base[data_base_ip] == SEM) {
             tree->tokens[tokens_ip] = _SEM(NULL, NULL);
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == '=' && data_base_ip < tree->size_data_base - 1 && tree->data_base[data_base_ip + 1] != '=') {
+        else if(tree->data_base[data_base_ip] == VAR_S && data_base_ip < tree->size_data_base - 1 && tree->data_base[data_base_ip + 1] != VAR_S) {
             tree->tokens[tokens_ip] = _VAR_S(NULL, NULL);
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == '+') {
+        else if(tree->data_base[data_base_ip] == ADD) {
             tree->tokens[tokens_ip] = _ADD(NULL, NULL);
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == '-') {
+        else if(tree->data_base[data_base_ip] == SUB) {
             tree->tokens[tokens_ip] = _SUB(NULL, NULL);
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == '*') {
+        else if(tree->data_base[data_base_ip] == MUL) {
             tree->tokens[tokens_ip] = _MUL(NULL, NULL);
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == '/') {
+        else if(tree->data_base[data_base_ip] == DIV) {
             tree->tokens[tokens_ip] = _DIV(NULL, NULL);
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == '^') {
+        else if(tree->data_base[data_base_ip] == DEG) {
             tree->tokens[tokens_ip] = _DEG(NULL, NULL);
             data_base_ip++;
         }
@@ -143,7 +144,7 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
             char* begin = tree->data_base + data_base_ip;
             size_t length = 0;
 
-            while(isalpha(tree->data_base[data_base_ip])) {
+            while(isalpha(tree->data_base[data_base_ip]) || tree->data_base[data_base_ip] == '_') {
                 length++;
                 data_base_ip++;
             }
@@ -196,6 +197,10 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
                 }
                 case ELSE: {
                     tree->tokens[tokens_ip] = _ELSE(NULL, NULL);
+                    break;
+                }
+                case EL_IF: {
+                    tree->tokens[tokens_ip] = _EL_IF(NULL, NULL);
                     break;
                 }
                 case DEF: {
@@ -361,8 +366,45 @@ Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     if((Operations)tokens[*ip]->data != R_FBR) {SNTX_ERR}
     (*ip)++;
 
-    Node* if_node  = _DEF_OP(cond_node, node);
-    Node* else_node = NULL;
+    Node* if_node   = _DEF_OP(cond_node, node);
+    Node* else_node = GetElseIf(num_of_nodes, tokens, ip, code_error);
+    Node* res_node = _IF(if_node, else_node);
+
+    return res_node;
+}
+
+Node* GetElseIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
+
+    MY_ASSERT(num_of_nodes != NULL, PTR_ERROR);
+    MY_ASSERT(tokens       != NULL, PTR_ERROR);
+    MY_ASSERT(ip           != NULL, PTR_ERROR);
+
+    Node* node = NULL;
+
+    while((Operations)tokens[*ip]->data == EL_IF) {
+        (*ip)++;
+
+        if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
+        (*ip)++;
+
+        Node* cond_node = GetCond(num_of_nodes, tokens, ip, code_error);
+
+        if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
+        (*ip)++;
+
+        if((Operations)tokens[*ip]->data != L_FBR) {SNTX_ERR}
+        (*ip)++;
+
+        Node* main_node = GetOp(num_of_nodes, tokens, ip, code_error);
+
+        if((Operations)tokens[*ip]->data != R_FBR) {SNTX_ERR}
+        (*ip)++;
+
+        Node* el_if_node = _DEF_OP(cond_node, main_node);
+        Node* else_node  = GetElseIf(num_of_nodes, tokens, ip, code_error);
+
+        node = _EL_IF(el_if_node, else_node);
+    }
 
     if((Operations)tokens[*ip]->data == ELSE) {
         (*ip)++;
@@ -370,17 +412,14 @@ Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
         if((Operations)tokens[*ip]->data != L_FBR) {SNTX_ERR}
         (*ip)++;
 
-        else_node = GetOp(num_of_nodes, tokens, ip, code_error);
-        Node* el_node = else_node;
-        else_node = _ELSE(el_node, NULL);
+        Node* else_node = GetOp(num_of_nodes, tokens, ip, code_error);
+        node = _ELSE(else_node, NULL);
 
         if((Operations)tokens[*ip]->data != R_FBR) {SNTX_ERR}
         (*ip)++;
     }
 
-    Node* res_node = _IF(if_node, else_node);
-
-    return res_node;
+    return node;
 }
 
 Node* GetWhile(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {

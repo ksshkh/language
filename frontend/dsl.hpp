@@ -36,6 +36,7 @@
 
 #define _IF(left, right)     NodeCtor(num_of_nodes, IDE,      IF,     left, right, NULL, code_error)
 #define _ELSE(left, right)   NodeCtor(num_of_nodes, IDE,      ELSE,   left, right, NULL, code_error)
+#define _EL_IF(left, right)  NodeCtor(num_of_nodes, IDE,      EL_IF,  left, right, NULL, code_error)
 #define _WHILE(left, right)  NodeCtor(num_of_nodes, IDE,      WHILE,  left, right, NULL, code_error)
 
 #define _DIFF(node)          DiffTree(num_of_nodes, node, code_error)

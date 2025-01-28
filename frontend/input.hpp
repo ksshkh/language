@@ -8,7 +8,7 @@
 #include "../tree/treedump.hpp"
 #include "dsl.hpp"
 
-const int TOKEN_NAME_LENGTH = 7;
+const int TOKEN_NAME_LENGTH = 10;
 const int NUM_OF_TOKENS     = 10;
 const int INIT_NUM_OF_NAMES = 10;
 
@@ -43,6 +43,7 @@ Operations FindToken(char* word, size_t length, int* code_error);
 Node* GetTree     (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
 Node* GetOp       (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
 Node* GetIf       (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
+Node* GetElseIf   (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
 Node* GetWhile    (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
 Node* GetAssign   (size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
 Node* GetAddAndSub(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error);
