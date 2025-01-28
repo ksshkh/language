@@ -7,9 +7,9 @@ CFLAGS = -c -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-
 	-Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing   \
 	-Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -Werror=vla -D_DEBUG -D_EJUDGE_CLIENT_SIDE
 
-INCLUDES = ../tree/tree.hpp ./errors.hpp ./utils.hpp ../tree/treedump.hpp ./dsl.hpp ./input.hpp
+INCLUDES = ../tree/tree.hpp ./errors.hpp ./utils.hpp ../tree/treedump.hpp ./dsl.hpp ./input.hpp ./recursivedes.hpp
 
-SOURCES = ./main.cpp ../tree/tree.cpp ./errors.cpp ./utils.cpp ../tree/treedump.cpp ./input.cpp
+SOURCES = ./main.cpp ../tree/tree.cpp ./errors.cpp ./utils.cpp ../tree/treedump.cpp ./input.cpp ./recursivedes.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
