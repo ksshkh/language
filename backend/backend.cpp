@@ -29,9 +29,12 @@ void AsmPrint(Node* node, FILE* stream, int* code_error) {
             AsmPrintNum(node->data, stream, code_error);
             break;
         }
-        case VAR:
+        case VAR: {
+            AsmPrintVar(node, stream, code_error);
+            break;
+        }
         case OP: {
-            AsmPrintOp((Operations)node->data, stream, code_error);
+            AsmPrintOp(node, stream, code_error);
             break;
         }
         case IDE:
@@ -44,11 +47,11 @@ void AsmPrint(Node* node, FILE* stream, int* code_error) {
 
 }
 
-void AsmPrintOp(Operations op, FILE* stream, int* code_error) {
+void AsmPrintOp(Node* node, FILE* stream, int* code_error) {
 
     MY_ASSERT(stream != NULL, FILE_ERROR);
 
-    switch(op) {
+    switch((Operations)node->data) {
         case ADD: {
             fprintf(stream, "add\n");
             break;
@@ -70,7 +73,10 @@ void AsmPrintOp(Operations op, FILE* stream, int* code_error) {
         case COS:
         case LN:
         case EOT:
-        case VAR_S:
+        case VAR_S: {
+            AsmPrintAssigment(node, stream, code_error);
+            break;
+        }
         case EQU:
         case NEQ:
         case AE:
@@ -84,6 +90,23 @@ void AsmPrintOp(Operations op, FILE* stream, int* code_error) {
         }
     }
 
+}
+
+void AsmPrintAssigment(Node* node, FILE* stream, int* code_error) {
+
+    MY_ASSERT(stream != NULL, FILE_ERROR);
+    MY_ASSERT(node   != NULL,  PTR_ERROR);
+
+    fprintf(stream, "pop [%d]\n", (int)node->left->data);
+}
+
+void AsmPrintVar(Node* node, FILE* stream, int* code_error) {
+
+    MY_ASSERT(stream != NULL, FILE_ERROR);
+
+    if((Operations)node->parent->data != VAR_S) {
+        fprintf(stream, "push [%d]\n", (int)node->data);
+    }
 }
 
 void AsmPrintNum(TreeElem num, FILE* stream, int* code_error) {

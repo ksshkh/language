@@ -1,7 +1,6 @@
-push 5
-push 7
+push [1]
+push 9
 push 8
 mul
 add
-push 9
-sub
+pop [0]
