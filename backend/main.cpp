@@ -9,6 +9,7 @@ int main(void) {
     TreeCtor(&tree, INPUT_TREE_FILE, &code_error);
     ReadTree(&tree, &code_error);
     DotTreeDump(&tree, &code_error);
+    ConvertToAsm(&tree, &code_error);
 
     return 0;
 }
