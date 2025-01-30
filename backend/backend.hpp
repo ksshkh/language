@@ -6,9 +6,13 @@
 
 void ConvertToAsm(Tree* tree, int* code_error);
 
-void AsmPrint(Node* node, FILE* stream, int* code_error);
+void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error);
 
-void AsmPrintOp(Node* node, FILE* stream, int* code_error);
+void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error);
+
+void AsmPrintIf(Node* node, size_t* label_id, FILE* stream, int* code_error);
+
+void AsmPrintInequality(Node* node, size_t* label_id, FILE* stream, int* code_error);
 
 void AsmPrintAssigment(Node* node, FILE* stream, int* code_error);
 

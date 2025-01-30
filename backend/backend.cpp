@@ -7,22 +7,30 @@ void ConvertToAsm(Tree* tree, int* code_error) {
     FILE* printout = fopen(ASM_FILE, "w");
     MY_ASSERT(printout != NULL, FOPEN_ERROR);
 
-    AsmPrint(tree->root, printout, code_error);
+    size_t label_id = 0;
+
+    AsmPrint(tree->root, &label_id, printout, code_error);
 
     MY_ASSERT(fclose(printout) == 0, FCLOSE_ERROR);
 }
 
-void AsmPrint(Node* node, FILE* stream, int* code_error) {
+void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error) {
 
-    MY_ASSERT(stream != NULL, FILE_ERROR);
+    MY_ASSERT(stream   != NULL, FILE_ERROR);
+    MY_ASSERT(label_id != NULL,  PTR_ERROR);
 
     if(!node) {
         return;
     }
 
-    AsmPrint(node->left, stream, code_error);
+    if((Operations)node->data == IF) {
+        (*label_id)++;
+    }
+    size_t old_label_id = *label_id;
 
-    AsmPrint(node->right, stream, code_error);
+    AsmPrint(node->left, label_id, stream, code_error);
+
+    AsmPrint(node->right, label_id, stream, code_error);
 
     switch(node->type) {
         case NUM: {
@@ -34,10 +42,13 @@ void AsmPrint(Node* node, FILE* stream, int* code_error) {
             break;
         }
         case OP: {
-            AsmPrintOp(node, stream, code_error);
+            AsmPrintOp(node, label_id, stream, code_error);
             break;
         }
-        case IDE:
+        case IDE: {
+            AsmPrintIf(node, &old_label_id, stream, code_error);
+            break;
+        }
         case FUNC_IDE:
         case PAR:
         default: {
@@ -47,9 +58,11 @@ void AsmPrint(Node* node, FILE* stream, int* code_error) {
 
 }
 
-void AsmPrintOp(Node* node, FILE* stream, int* code_error) {
+void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error) {
 
-    MY_ASSERT(stream != NULL, FILE_ERROR);
+    MY_ASSERT(stream   != NULL, FILE_ERROR);
+    MY_ASSERT(node     != NULL,  PTR_ERROR);
+    MY_ASSERT(label_id != NULL,  PTR_ERROR);
 
     switch((Operations)node->data) {
         case ADD: {
@@ -82,7 +95,10 @@ void AsmPrintOp(Node* node, FILE* stream, int* code_error) {
         case AE:
         case BE:
         case ABOVE:
-        case BELOW:
+        case BELOW: {
+            AsmPrintInequality(node, label_id, stream, code_error);
+            break;
+        }
         case OR:
         case AND:
         default: {
@@ -90,6 +106,53 @@ void AsmPrintOp(Node* node, FILE* stream, int* code_error) {
         }
     }
 
+}
+
+void AsmPrintIf(Node* node, size_t* label_id, FILE* stream, int* code_error) {
+
+    MY_ASSERT(stream   != NULL, FILE_ERROR);
+    MY_ASSERT(node     != NULL,  PTR_ERROR);
+    MY_ASSERT(label_id != NULL,  PTR_ERROR);
+
+    fprintf(stream, "label%d:\n", *label_id);
+    // (*label_id)++;
+}
+
+void AsmPrintInequality(Node* node, size_t* label_id, FILE* stream, int* code_error) {
+
+    MY_ASSERT(stream   != NULL, FILE_ERROR);
+    MY_ASSERT(node     != NULL,  PTR_ERROR);
+    MY_ASSERT(label_id != NULL,  PTR_ERROR);
+
+    switch((Operations)node->data) {
+        case EQU: {
+            fprintf(stream, "jne label%d\n", *label_id);
+            break;
+        }
+        case NEQ: {
+            fprintf(stream, "je label%d\n", *label_id);
+            break;
+        }
+        case AE: {
+            fprintf(stream, "jb label%d\n", *label_id);
+            break;
+        }
+        case BE: {
+            fprintf(stream, "ja label%d\n", *label_id);
+            break;
+        }
+        case ABOVE: {
+            fprintf(stream, "jbe label%d\n", *label_id);
+            break;
+        }
+        case BELOW: {
+            fprintf(stream, "jae label%d\n", *label_id);
+            break;
+        }
+        default: {
+            break;
+        }
+    }
 }
 
 void AsmPrintAssigment(Node* node, FILE* stream, int* code_error) {
@@ -103,6 +166,7 @@ void AsmPrintAssigment(Node* node, FILE* stream, int* code_error) {
 void AsmPrintVar(Node* node, FILE* stream, int* code_error) {
 
     MY_ASSERT(stream != NULL, FILE_ERROR);
+    MY_ASSERT(node   != NULL,  PTR_ERROR);
 
     if((Operations)node->parent->data != VAR_S) {
         fprintf(stream, "push [%d]\n", (int)node->data);
