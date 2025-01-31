@@ -23,7 +23,7 @@ void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error) {
         return;
     }
 
-    if((Operations)node->data == IF) {
+    if((Operations)node->data == DEF_OP) {
         (*label_id)++;
     }
     size_t old_label_id = *label_id;
@@ -45,8 +45,16 @@ void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error) {
             AsmPrintOp(node, label_id, stream, code_error);
             break;
         }
+        case DEF_TYPE: {
+            if((Operations)node->data == DEF_OP) {
+                AsmPrintIf(node, &old_label_id, stream, code_error);
+            }
+            break;
+        }
         case IDE: {
-            AsmPrintIf(node, &old_label_id, stream, code_error);
+            if((Operations)node->data == ELSE) {
+                fprintf(stream, "label%d:\n", ++(*label_id));
+            }
             break;
         }
         case FUNC_IDE:
@@ -108,14 +116,32 @@ void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error) {
 
 }
 
+size_t GetIfDepth(Node* node, int* code_error) {
+
+    MY_ASSERT(node != NULL,  PTR_ERROR);
+
+    size_t depth = 0;
+
+    while(node->right && ((Operations)node->right->data == EL_IF || (Operations)node->right->data == ELSE)) {
+        node = node->right;
+        depth++;
+    }
+
+    return depth;
+}
+
 void AsmPrintIf(Node* node, size_t* label_id, FILE* stream, int* code_error) {
 
     MY_ASSERT(stream   != NULL, FILE_ERROR);
     MY_ASSERT(node     != NULL,  PTR_ERROR);
     MY_ASSERT(label_id != NULL,  PTR_ERROR);
 
+    size_t depth = GetIfDepth(node->parent, code_error);
+    if(depth) {
+        fprintf(stream, "jmp label%d\n", *label_id + depth);
+    }
+
     fprintf(stream, "label%d:\n", *label_id);
-    // (*label_id)++;
 }
 
 void AsmPrintInequality(Node* node, size_t* label_id, FILE* stream, int* code_error) {

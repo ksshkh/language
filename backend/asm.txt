@@ -8,13 +8,22 @@ push 9
 push [0]
 sub
 pop [1]
+jmp label4
 label2:
-push 10
-pop [0]
+push [0]
+push 11
+jae label3
+push 1
+pop [1]
+jmp label4
+label3:
+push 2
+pop [1]
+label4:
 label1:
 push [0]
 push 8
-jae label3
+jae label5
 push 9
 pop [0]
-label3:
+label5:

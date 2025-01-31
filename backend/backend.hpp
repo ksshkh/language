@@ -10,6 +10,8 @@ void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error);
 
 void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error);
 
+size_t GetIfDepth(Node* node, int* code_error);
+
 void AsmPrintIf(Node* node, size_t* label_id, FILE* stream, int* code_error);
 
 void AsmPrintInequality(Node* node, size_t* label_id, FILE* stream, int* code_error);
