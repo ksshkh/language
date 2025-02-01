@@ -1,6 +1,6 @@
 #include "recursivedes.hpp"
 
-#define SNTX_ERR fprintf(stderr, "syntax error: %c (line: %d)\n", (char)tokens[*ip]->data, __LINE__); \
+#define SNTX_ERR fprintf(stderr, "syntax error: %.2lf (line: %d)\n", tokens[*ip]->data, __LINE__); \
                  exit(0);
 
 Node* GetTree(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
@@ -26,9 +26,9 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     if((Operations)tokens[*ip]->data == IF) {
         (*ip)++;
 
-        Node* node = GetIf(num_of_nodes, tokens, ip, code_error);
+        Node* node       = GetIf(num_of_nodes, tokens, ip, code_error);
         Node* right_node = GetOp(num_of_nodes, tokens, ip, code_error);
-        Node* left_node = node;
+        Node* left_node  = node;
 
         node = _SEM(left_node, right_node);
 
@@ -37,9 +37,23 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     else if((Operations)tokens[*ip]->data == WHILE) {
         (*ip)++;
 
-        Node* node = GetWhile(num_of_nodes, tokens, ip, code_error);
+        Node* node       = GetWhile(num_of_nodes, tokens, ip, code_error);
         Node* right_node = GetOp(num_of_nodes, tokens, ip, code_error);
-        Node* left_node = node;
+        Node* left_node  = node;
+
+        node = _SEM(left_node, right_node);
+
+        return node;
+    }
+    else if((Operations)tokens[*ip]->type == FUNC_IDE) {
+
+        Node* node       = GetFuncCall(num_of_nodes, tokens, ip, code_error);
+
+        if((Operations)tokens[*ip]->data != SEM) {SNTX_ERR}
+        (*ip)++;
+
+        Node* right_node = GetOp(num_of_nodes, tokens, ip, code_error);
+        Node* left_node  = node;
 
         node = _SEM(left_node, right_node);
 
@@ -52,7 +66,7 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
         (*ip)++;
 
         Node* right_node = GetOp(num_of_nodes, tokens, ip, code_error);
-        Node* left_node = node;
+        Node* left_node  = node;
 
         node = _SEM(left_node, right_node);
 
@@ -181,11 +195,49 @@ Node* GetAssign(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error
         if(tokens[*ip]->data != VAR_S) {SNTX_ERR}
         (*ip)++;
 
-        Node* right_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+        Node* right_node = NULL;
+
+        if(tokens[*ip]->type == FUNC_IDE && (Operations)tokens[*ip]->data != PRINT && (Operations)tokens[*ip]->data != INPUT) {
+            right_node = GetFuncCall(num_of_nodes, tokens, ip, code_error);
+        }
+        else {
+            right_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+        }
+
         return _VAR_S(left_node, right_node);
     }
 
     return GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+}
+
+Node* GetFuncCall(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
+
+    MY_ASSERT(num_of_nodes != NULL, PTR_ERROR);
+    MY_ASSERT(tokens       != NULL, PTR_ERROR);
+    MY_ASSERT(ip           != NULL, PTR_ERROR);
+
+    Operations op = (Operations)tokens[*ip]->data;
+    (*ip)++;
+
+    if((Operations)tokens[*ip]->data != L_BR) {SNTX_ERR}
+    (*ip)++;
+
+    Node* param_node = GetParam(num_of_nodes, tokens, ip, code_error);
+
+    if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
+    (*ip)++;
+
+    switch(op) {
+            case PRINT: {
+                return _PRINT(param_node);
+            }
+            case INPUT: {
+                return _INPUT(param_node);
+            }
+            default: {
+                return _FCALL(op, param_node);
+            }
+        }
 }
 
 Node* GetAddAndSub(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
@@ -307,6 +359,9 @@ Node* GetUnaryOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_erro
             }
             case LN: {
                 return _LN(left_node);
+            }
+            case SQRT: {
+                return _SQRT(left_node);
             }
             default: {
                 break;
@@ -440,6 +495,22 @@ Node* GetVar(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
 
     Node* ret_node = tokens[*ip];
     if(tokens[*ip]->type == VAR) (*ip)++;
+
+    if(old_ip == *ip) {SNTX_ERR}
+
+    return ret_node;
+}
+
+Node* GetParam(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
+
+    MY_ASSERT(num_of_nodes != NULL, PTR_ERROR);
+    MY_ASSERT(tokens       != NULL, PTR_ERROR);
+    MY_ASSERT(ip           != NULL, PTR_ERROR);
+
+    size_t old_ip = *ip;
+
+    Node* ret_node = tokens[*ip];
+    if(tokens[*ip]->type == PAR) (*ip)++;
 
     if(old_ip == *ip) {SNTX_ERR}
 

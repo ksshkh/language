@@ -9,12 +9,13 @@
 #include "../dsl.hpp"
 
 const int TOKEN_NAME_LENGTH = 10;
-const int NUM_OF_TOKENS     = 10;
+const int NUM_OF_TOKENS     = 11;
 const int INIT_NUM_OF_NAMES = 10;
 
 struct Name {
     char* name = NULL;
     size_t length = 0;
+    Type type = DEF_TYPE;
 };
 
 struct TableName {
@@ -30,7 +31,7 @@ struct Token {
 
 void TableNameCtor(TableName* tbl_nm, int* code_error);
 
-void AddNewName(TableName* tbl_nm, char* name, size_t length, int* code_error);
+void AddNewName(TableName* tbl_nm, char* name, size_t length, Type type, int* code_error);
 
 void TableNameDtor(TableName* tbl_nm, int* code_error);
 

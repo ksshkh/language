@@ -10,7 +10,10 @@ Token tkns[NUM_OF_TOKENS] = {{"sin",       SIN},
                              {"while",   WHILE},
                              {"def",       DEF},
                              {"else",     ELSE},
-                             {"else_if", EL_IF}};
+                             {"else_if", EL_IF},
+                             {"input",   INPUT},
+                             {"print",   PRINT},
+                             {"sqrt",     SQRT}};
 
 static const char* TABLE_NAME_FILE = "../frontend/table_name.txt";
 
@@ -151,21 +154,29 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
                     int found_id = FindName(tbl_nm, begin, length, code_error);
 
                     if(found_id != DEF_IP) {
-                        if((Operations)tree->tokens[tokens_ip - 1]->data == DEF && tokens_ip) {
-                            tree->tokens[tokens_ip] = _FUNC_IDE(found_id);
+                        if(tokens_ip >= 2 && (Type)tree->tokens[tokens_ip - 2]->type == FUNC_IDE) {
+                            tree->tokens[tokens_ip] = _PAR((TreeElem)found_id);
+                        }
+                        else if(tbl_nm->table_name[found_id].type == FUNC_IDE) {
+                            tree->tokens[tokens_ip] = _FUNC_IDE((TreeElem)found_id);
                         }
                         else {
-                            tree->tokens[tokens_ip] = _VAR(found_id);
+                            tree->tokens[tokens_ip] = _VAR((TreeElem)found_id);
                         }
                     }
                     else {
-                        AddNewName(tbl_nm, begin, length, code_error);
-
                         if(tokens_ip && (Operations)tree->tokens[tokens_ip - 1]->data == DEF) {
+                            AddNewName(tbl_nm, begin, length, FUNC_IDE, code_error);
                             tree->tokens[tokens_ip] = _FUNC_IDE((TreeElem)(tbl_nm->free_id - 1));
                         }
                         else {
-                            tree->tokens[tokens_ip] = _VAR((TreeElem)(tbl_nm->free_id - 1));
+                            AddNewName(tbl_nm, begin, length, VAR, code_error);
+                            if(tokens_ip >= 2 && (Type)tree->tokens[tokens_ip - 2]->type == FUNC_IDE) {
+                                tree->tokens[tokens_ip] = _PAR((TreeElem)(tbl_nm->free_id - 1));
+                            }
+                            else {
+                                tree->tokens[tokens_ip] = _VAR((TreeElem)(tbl_nm->free_id - 1));
+                            }
                         }
                     }
                     break;
@@ -182,6 +193,10 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
                     tree->tokens[tokens_ip] = _LN(NULL);
                     break;
                 }
+                case SQRT: {
+                    tree->tokens[tokens_ip] = _SQRT(NULL);
+                    break;
+                }
                 case IF: {
                     tree->tokens[tokens_ip] = _IF(NULL, NULL);
                     break;
@@ -196,6 +211,14 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
                 }
                 case EL_IF: {
                     tree->tokens[tokens_ip] = _EL_IF(NULL, NULL);
+                    break;
+                }
+                case INPUT: {
+                    tree->tokens[tokens_ip] = _INPUT(NULL);
+                    break;
+                }
+                case PRINT: {
+                    tree->tokens[tokens_ip] = _PRINT(NULL);
                     break;
                 }
                 case DEF: {
@@ -250,7 +273,7 @@ void TableNameCtor(TableName* tbl_nm, int* code_error) {
     tbl_nm->table_name = (Name*)calloc(INIT_NUM_OF_NAMES, sizeof(Name));
 }
 
-void AddNewName(TableName* tbl_nm, char* name, size_t length, int* code_error) {
+void AddNewName(TableName* tbl_nm, char* name, size_t length, Type type, int* code_error) {
 
     MY_ASSERT(tbl_nm != NULL, PTR_ERROR);
     MY_ASSERT(name   != NULL, PTR_ERROR);
@@ -263,6 +286,7 @@ void AddNewName(TableName* tbl_nm, char* name, size_t length, int* code_error) {
 
     tbl_nm->table_name[tbl_nm->free_id].name   = name;
     tbl_nm->table_name[tbl_nm->free_id].length = length;
+    tbl_nm->table_name[tbl_nm->free_id].type   = type;
 
     tbl_nm->free_id++;
 }
@@ -290,7 +314,7 @@ void PrintTableName(TableName* tbl_nm, int* code_error) {
         for(size_t j = 0; j < tbl_nm->table_name[i].length; j++) {
             fprintf(printout, "%c", *(tbl_nm->table_name[i].name + j));
         }
-        fprintf(printout, "\n");
+        fprintf(printout, " %d\n", tbl_nm->table_name[i].type);
     }
 
     MY_ASSERT(fclose(printout) == 0, FCLOSE_ERROR);
