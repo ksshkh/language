@@ -23,10 +23,12 @@ push 0
 jne label3
 push [3]
 out
+jmp label4
 label3:
 push [6]
 out
 label4:
+jmp label5
 label2:
 push [5]
 out
@@ -39,4 +41,65 @@ pop [7]
 push [7]
 out
 label5:
+jmp label6
 label1:
+push [1]
+push 2
+pop [1]
+push 4
+push [0]
+mul
+push [2]
+mul
+sub
+pop [8]
+push [8]
+push 0
+jae label6
+push [6]
+out
+jmp label8
+label6:
+push [8]
+push 0
+jne label7
+push [5]
+out
+push 0
+push [1]
+sub
+push 2
+push [0]
+mul
+div
+pop [7]
+push [7]
+out
+jmp label8
+label7:
+push 0
+push [1]
+sub
+push [8]
+add
+push 2
+push [0]
+mul
+div
+pop [9]
+push 0
+push [1]
+sub
+push [8]
+sub
+push 2
+push [0]
+mul
+div
+pop [10]
+push [9]
+out
+push [10]
+out
+label8:
+label9:

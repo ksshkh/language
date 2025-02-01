@@ -6,3 +6,6 @@
 5 one_r 2
 6 nul_r 2
 7 res 2
+8 D 2
+9 f_res 2
+10 s_res 2

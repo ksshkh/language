@@ -22,3 +22,20 @@ if(a == 0) {
         print(res);
     }
 }
+else {
+    D = b ^ 2 - 4 * a * c;
+    if(D < 0) {
+        print(nul_r);
+    }
+    else_if(D == 0) {
+        print(one_r);
+        res = (0 - b) / (2 * a);
+        print(res);
+    }
+    else {
+        f_res = (0 - b + sqrt(D)) / (2 * a);
+        s_res = (0 - b - sqrt(D)) / (2 * a);
+        print(f_res);
+        print(s_res);
+    }
+}

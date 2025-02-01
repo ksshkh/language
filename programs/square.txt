@@ -33,9 +33,9 @@ else {
         print(res);
     }
     else {
-        res1 = (0 - b + sqrt(D)) / (2 * a);
-        res2 = (0 - b - sqrt(D)) / (2 * a);
-        print(res1);
-        print(res2);
+        f_res = (0 - b + sqrt(D)) / (2 * a);
+        s_res2 = (0 - b - sqrt(D)) / (2 * a);
+        print(f_res);
+        print(s_res);
     }
 }
