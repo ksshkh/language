@@ -1,2 +1,8 @@
-0 x 2
-1 y 2
+0 a 2
+1 b 2
+2 c 2
+3 inf_r 2
+4 two_r 2
+5 one_r 2
+6 nul_r 2
+7 res 2

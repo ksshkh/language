@@ -239,7 +239,7 @@ Operations FindToken(char* word, size_t length, int* code_error) {
     MY_ASSERT(word != NULL, PTR_ERROR);
 
     for(size_t i = 0; i < NUM_OF_TOKENS; i++) {
-        if(!strncmp(word, tkns[i].name, length)) {
+        if(length == strlen(tkns[i].name) && !strncmp(word, tkns[i].name, length)) {
             return tkns[i].code;
         }
     }

@@ -1,0 +1,41 @@
+input(a);
+input(b);
+input(c);
+
+inf_r = 3;
+two_r = 2;
+one_r = 1;
+nul_r = 0;
+
+if(a == 0) {
+    if(b == 0) {
+        if(c == 0) {
+            print(inf_r);
+        }
+        else {
+            print(nul_r);
+        }
+    }
+    else {
+        print(one_r);
+        res = (0 - c) / b;
+        print(res);
+    }
+}
+else {
+    D = b ^ 2 - 4 * a * c;
+    if(D < 0) {
+        print(nul_r);
+    }
+    else_if(D == 0) {
+        print(one_r);
+        res = (0 - b) / (2 * a);
+        print(res);
+    }
+    else {
+        res1 = (0 - b + sqrt(D)) / (2 * a);
+        res2 = (0 - b - sqrt(D)) / (2 * a);
+        print(res1);
+        print(res2);
+    }
+}

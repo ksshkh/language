@@ -3,27 +3,133 @@ digraph Tree {
 	node [shape = record];
 	edge [color = "#5F5B6A"];
 	bgcolor = "#FFFEEC";
-	node0x5d2efc75bbd0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
-		node0x5d2efc75bbd0 -> node0x5d2efc75ba80
-	node0x5d2efc75ba80 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#A3C4F3", label = "{input}"];
-		node0x5d2efc75ba80 -> node0x5d2efc75b750
-	node0x5d2efc75b750 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#89FBC0", label = "{0}"];
-		node0x5d2efc75bbd0 -> node0x5d2efc75bba0
-	node0x5d2efc75bba0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
-		node0x5d2efc75bba0 -> node0x5d2efc75bb70
-	node0x5d2efc75bb70 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#F1C0E8", label = "{if}"];
-		node0x5d2efc75bb70 -> node0x5d2efc75bb40
-	node0x5d2efc75bb40 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{no op}"];
-		node0x5d2efc75bb40 -> node0x5d2efc75bab0
-	node0x5d2efc75bab0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{==}"];
-		node0x5d2efc75bab0 -> node0x5d2efc75b840
-	node0x5d2efc75b840 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{1}"];
-		node0x5d2efc75bab0 -> node0x5d2efc75b8a0
-	node0x5d2efc75b8a0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#8EECF5", label = "{9.00}"];
-		node0x5d2efc75bb40 -> node0x5d2efc75bb10
-	node0x5d2efc75bb10 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
-		node0x5d2efc75bb10 -> node0x5d2efc75bae0
-	node0x5d2efc75bae0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#A3C4F3", label = "{print}"];
-		node0x5d2efc75bae0 -> node0x5d2efc75b990
-	node0x5d2efc75b990 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#89FBC0", label = "{0}"];
+	node0x55b1719d59b0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d59b0 -> node0x55b1719d59e0
+	node0x55b1719d59e0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#A3C4F3", label = "{input}"];
+		node0x55b1719d59e0 -> node0x55b1719d5a10
+	node0x55b1719d5a10 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#89FBC0", label = "{0}"];
+		node0x55b1719d59b0 -> node0x55b1719d5a40
+	node0x55b1719d5a40 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d5a40 -> node0x55b1719d5a70
+	node0x55b1719d5a70 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#A3C4F3", label = "{input}"];
+		node0x55b1719d5a70 -> node0x55b1719d5aa0
+	node0x55b1719d5aa0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#89FBC0", label = "{1}"];
+		node0x55b1719d5a40 -> node0x55b1719d5ad0
+	node0x55b1719d5ad0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d5ad0 -> node0x55b1719d5b00
+	node0x55b1719d5b00 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#A3C4F3", label = "{input}"];
+		node0x55b1719d5b00 -> node0x55b1719d5b30
+	node0x55b1719d5b30 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#89FBC0", label = "{2}"];
+		node0x55b1719d5ad0 -> node0x55b1719d5b60
+	node0x55b1719d5b60 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d5b60 -> node0x55b1719d5b90
+	node0x55b1719d5b90 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{=}"];
+		node0x55b1719d5b90 -> node0x55b1719d5bc0
+	node0x55b1719d5bc0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{3}"];
+		node0x55b1719d5b90 -> node0x55b1719d5bf0
+	node0x55b1719d5bf0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#8EECF5", label = "{3.00}"];
+		node0x55b1719d5b60 -> node0x55b1719d5c20
+	node0x55b1719d5c20 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d5c20 -> node0x55b1719d5c50
+	node0x55b1719d5c50 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{=}"];
+		node0x55b1719d5c50 -> node0x55b1719d5c80
+	node0x55b1719d5c80 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{4}"];
+		node0x55b1719d5c50 -> node0x55b1719d5cb0
+	node0x55b1719d5cb0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#8EECF5", label = "{2.00}"];
+		node0x55b1719d5c20 -> node0x55b1719d5ce0
+	node0x55b1719d5ce0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d5ce0 -> node0x55b1719d5d10
+	node0x55b1719d5d10 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{=}"];
+		node0x55b1719d5d10 -> node0x55b1719d5d40
+	node0x55b1719d5d40 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{5}"];
+		node0x55b1719d5d10 -> node0x55b1719d5d70
+	node0x55b1719d5d70 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#8EECF5", label = "{1.00}"];
+		node0x55b1719d5ce0 -> node0x55b1719d5da0
+	node0x55b1719d5da0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d5da0 -> node0x55b1719d5dd0
+	node0x55b1719d5dd0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{=}"];
+		node0x55b1719d5dd0 -> node0x55b1719d5e00
+	node0x55b1719d5e00 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{6}"];
+		node0x55b1719d5dd0 -> node0x55b1719d5e30
+	node0x55b1719d5e30 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#8EECF5", label = "{0.00}"];
+		node0x55b1719d5da0 -> node0x55b1719d5e60
+	node0x55b1719d5e60 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d5e60 -> node0x55b1719d5e90
+	node0x55b1719d5e90 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#F1C0E8", label = "{if}"];
+		node0x55b1719d5e90 -> node0x55b1719d5ec0
+	node0x55b1719d5ec0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{no op}"];
+		node0x55b1719d5ec0 -> node0x55b1719d5ef0
+	node0x55b1719d5ef0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{==}"];
+		node0x55b1719d5ef0 -> node0x55b1719d5f20
+	node0x55b1719d5f20 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{0}"];
+		node0x55b1719d5ef0 -> node0x55b1719d5f50
+	node0x55b1719d5f50 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#8EECF5", label = "{0.00}"];
+		node0x55b1719d5ec0 -> node0x55b1719d5f80
+	node0x55b1719d5f80 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d5f80 -> node0x55b1719d5fb0
+	node0x55b1719d5fb0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#F1C0E8", label = "{if}"];
+		node0x55b1719d5fb0 -> node0x55b1719d5fe0
+	node0x55b1719d5fe0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{no op}"];
+		node0x55b1719d5fe0 -> node0x55b1719d6010
+	node0x55b1719d6010 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{==}"];
+		node0x55b1719d6010 -> node0x55b1719d6040
+	node0x55b1719d6040 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{1}"];
+		node0x55b1719d6010 -> node0x55b1719d6070
+	node0x55b1719d6070 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#8EECF5", label = "{0.00}"];
+		node0x55b1719d5fe0 -> node0x55b1719d60a0
+	node0x55b1719d60a0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d60a0 -> node0x55b1719d60d0
+	node0x55b1719d60d0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#F1C0E8", label = "{if}"];
+		node0x55b1719d60d0 -> node0x55b1719d6100
+	node0x55b1719d6100 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{no op}"];
+		node0x55b1719d6100 -> node0x55b1719d6130
+	node0x55b1719d6130 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{==}"];
+		node0x55b1719d6130 -> node0x55b1719d6160
+	node0x55b1719d6160 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{2}"];
+		node0x55b1719d6130 -> node0x55b1719d6190
+	node0x55b1719d6190 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#8EECF5", label = "{0.00}"];
+		node0x55b1719d6100 -> node0x55b1719d61c0
+	node0x55b1719d61c0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d61c0 -> node0x55b1719d61f0
+	node0x55b1719d61f0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#A3C4F3", label = "{print}"];
+		node0x55b1719d61f0 -> node0x55b1719d6220
+	node0x55b1719d6220 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#89FBC0", label = "{3}"];
+		node0x55b1719d60d0 -> node0x55b1719d6250
+	node0x55b1719d6250 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#F1C0E8", label = "{else}"];
+		node0x55b1719d6250 -> node0x55b1719d6280
+	node0x55b1719d6280 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d6280 -> node0x55b1719d62b0
+	node0x55b1719d62b0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#A3C4F3", label = "{print}"];
+		node0x55b1719d62b0 -> node0x55b1719d62e0
+	node0x55b1719d62e0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#89FBC0", label = "{6}"];
+		node0x55b1719d5fb0 -> node0x55b1719d6310
+	node0x55b1719d6310 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#F1C0E8", label = "{else}"];
+		node0x55b1719d6310 -> node0x55b1719d6340
+	node0x55b1719d6340 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d6340 -> node0x55b1719d6370
+	node0x55b1719d6370 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#A3C4F3", label = "{print}"];
+		node0x55b1719d6370 -> node0x55b1719d63a0
+	node0x55b1719d63a0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#89FBC0", label = "{5}"];
+		node0x55b1719d6340 -> node0x55b1719d63d0
+	node0x55b1719d63d0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d63d0 -> node0x55b1719d6400
+	node0x55b1719d6400 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{=}"];
+		node0x55b1719d6400 -> node0x55b1719d6430
+	node0x55b1719d6430 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{7}"];
+		node0x55b1719d6400 -> node0x55b1719d6460
+	node0x55b1719d6460 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{/}"];
+		node0x55b1719d6460 -> node0x55b1719d6490
+	node0x55b1719d6490 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#CFBAF0", label = "{-}"];
+		node0x55b1719d6490 -> node0x55b1719d64c0
+	node0x55b1719d64c0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#8EECF5", label = "{0.00}"];
+		node0x55b1719d6490 -> node0x55b1719d64f0
+	node0x55b1719d64f0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{2}"];
+		node0x55b1719d6460 -> node0x55b1719d6520
+	node0x55b1719d6520 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#98F5E1", label = "{1}"];
+		node0x55b1719d63d0 -> node0x55b1719d6550
+	node0x55b1719d6550 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#FFCFD2", label = "{;}"];
+		node0x55b1719d6550 -> node0x55b1719d6580
+	node0x55b1719d6580 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#A3C4F3", label = "{print}"];
+		node0x55b1719d6580 -> node0x55b1719d65b0
+	node0x55b1719d65b0 [color = "#5F5B6A", shape = Mrecord, style = filled, fillcolor = "#89FBC0", label = "{7}"];
 }

@@ -12,12 +12,12 @@ int main(void) {
 
     TokensParcing(&tree, &(tree.num_of_nodes), &tbl_nm, &code_error);
 
-    // for(size_t i = 0; i < tree.size_data_base; i++) {
-    //     if(!tree.tokens[i]) {
-    //         break;
-    //     }
-    //     printf("%d %lf\n", tree.tokens[i]->type, tree.tokens[i]->data);
-    // }
+    for(size_t i = 0; i < tree.size_data_base; i++) {
+        if(!tree.tokens[i]) {
+            break;
+        }
+        printf("%d %lf\n", tree.tokens[i]->type, tree.tokens[i]->data);
+    }
 
     PrintTableName(&tbl_nm, &code_error);
 
