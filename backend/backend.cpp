@@ -125,9 +125,11 @@ size_t GetIfDepth(Node* node, int* code_error) {
 
     size_t depth = 0;
 
-    while(node->right && ((Operations)node->right->data == EL_IF || (Operations)node->right->data == ELSE)) {
+    while(node->right) {
+        if(((Operations)node->right->data == EL_IF || (Operations)node->right->data == ELSE)) {
+            depth++;
+        }
         node = node->right;
-        depth++;
     }
 
     return depth;
