@@ -45,6 +45,7 @@ enum Operations {
     SIN  = 's',
     COS  = 'c',
     LN   = 'l',
+    SQRT = 'q',
 
     EOT   = '$',
     L_BR  = '(',
@@ -68,6 +69,9 @@ enum Operations {
     DEF   = 'd',
     ELSE  = 'e',
     EL_IF = 'f',
+
+    INPUT = 'I',
+    PRINT = 'P',
 };
 
 enum Vars {

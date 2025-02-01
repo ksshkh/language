@@ -3,6 +3,7 @@
 
 #define _NUM(num)            NodeCtor(num_of_nodes, NUM,      num,    NULL,      NULL, NULL, code_error)
 #define _VAR(var)            NodeCtor(num_of_nodes, VAR,      var,    NULL,      NULL, NULL, code_error)
+#define _PAR(par)            NodeCtor(num_of_nodes, PAR,      par,    NULL,      NULL, NULL, code_error)
 
 #define _FUNC_IDE(func_ide)  NodeCtor(num_of_nodes, FUNC_IDE, func_ide, NULL,    NULL, NULL, code_error)
 
@@ -29,6 +30,7 @@
 #define _SIN(left)           NodeCtor(num_of_nodes, OP,       SIN,    left,  NULL, NULL, code_error)
 #define _COS(left)           NodeCtor(num_of_nodes, OP,       COS,    left,  NULL, NULL, code_error)
 #define _LN(left)            NodeCtor(num_of_nodes, OP,       LN,     left,  NULL, NULL, code_error)
+#define _SQRT(left)          NodeCtor(num_of_nodes, OP,       SQRT,   left,  NULL, NULL, code_error)
 #define _AE(left, right)     NodeCtor(num_of_nodes, OP,       AE,     left, right, NULL, code_error)
 #define _BE(left, right)     NodeCtor(num_of_nodes, OP,       BE,     left, right, NULL, code_error)
 #define _OR(left, right)     NodeCtor(num_of_nodes, OP,       OR,     left, right, NULL, code_error)
@@ -38,6 +40,10 @@
 #define _ELSE(left, right)   NodeCtor(num_of_nodes, IDE,      ELSE,   left, right, NULL, code_error)
 #define _EL_IF(left, right)  NodeCtor(num_of_nodes, IDE,      EL_IF,  left, right, NULL, code_error)
 #define _WHILE(left, right)  NodeCtor(num_of_nodes, IDE,      WHILE,  left, right, NULL, code_error)
+
+#define _INPUT(left)         NodeCtor(num_of_nodes, FUNC_IDE, INPUT,  left,  NULL, NULL, code_error)
+#define _PRINT(left)         NodeCtor(num_of_nodes, FUNC_IDE, PRINT,  left,  NULL, NULL, code_error)
+#define _FCALL(id, left)     NodeCtor(num_of_nodes, FUNC_IDE, id,     left,  NULL, NULL, code_error)
 
 #define _DIFF(node)          DiffTree(num_of_nodes, node, code_error)
 #define _COPY(node, parent)  CopyTree(num_of_nodes, node,  parent, code_error)

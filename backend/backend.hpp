@@ -22,4 +22,6 @@ void AsmPrintVar(Node* node, FILE* stream, int* code_error);
 
 void AsmPrintNum(TreeElem num, FILE* stream, int* code_error);
 
+void AsmPrintPar(Node* node, FILE* stream, int* code_error);
+
 #endif

@@ -3,6 +3,7 @@
 
 #define NODE_NUM_COLOR     "\"#8EECF5\""
 #define NODE_VAR_COLOR     "\"#98F5E1\""
+#define NODE_PAR_COLOR     "\"#89FBC0\""
 #define NODE_OP_COLOR      "\"#CFBAF0\""
 #define NODE_DEF_COLOR     "\"#FFCFD2\""
 #define NODE_IDE_COLOR     "\"#F1C0E8\""
@@ -106,6 +107,10 @@ void PrintDotNode(Node* node, FILE* stream) {
                 fprintf(stream, "ln");
                 break;
             }
+            case SQRT: {
+                fprintf(stream, "sqrt");
+                break;
+            }
             default: {
                 fprintf(stream, "%c", (char)node->data);
                 break;
@@ -154,7 +159,25 @@ void PrintDotNode(Node* node, FILE* stream) {
         fprintf(stream, "}\"];\n");
     }
     else if(node->type == FUNC_IDE) {
-        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_FUNC_COLOR ", label = \"{%d}\"];\n", node, (int)node->data);
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_FUNC_COLOR ", label = \"{", node);
+        switch((Operations)node->data) {
+            case PRINT: {
+                fprintf(stream, "print");
+                break;
+            }
+            case INPUT: {
+                fprintf(stream, "input");
+                break;
+            }
+            default: {
+                fprintf(stream, "%d", (int)node->data);
+                break;
+            }
+        }
+        fprintf(stream, "}\"];\n");
+    }
+    else if(node->type == PAR) {
+        fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_PAR_COLOR ", label = \"{%d}\"];\n", node, (int)node->data);
     }
     else {
         fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_VAR_COLOR ", label = \"{%d}\"];\n", node, (int)node->data);
@@ -224,25 +247,6 @@ void PreorderPrinting(Node* node, FILE* stream, int* code_error) {
     else {
         fprintf(stream, "%d ", (int)node->data);
     }
-    // else {
-    //     switch((Operations)node->data) {
-    //         case SIN: {
-    //             fprintf(stream, " sin ");
-    //             break;
-    //         }
-    //         case COS: {
-    //             fprintf(stream, " cos ");
-    //             break;
-    //         }
-    //         case LN: {
-    //             fprintf(stream, " ln ");
-    //             break;
-    //         }
-    //         default: {
-    //             fprintf(stream, " %c ", (int)node->data);
-    //         }
-    //     }
-    // }
 
     PreorderPrinting(node->left, stream, code_error);
     PreorderPrinting(node->right, stream, code_error);
@@ -298,5 +302,6 @@ void InorderPrinting(Node* node, FILE* stream, int* code_error) {
 #undef NODE_DEF_COLOR
 #undef NODE_IDE_COLOR
 #undef NODE_VAR_COLOR
+#undef NODE_PAR_COLOR
 #undef NODE_OP_COLOR
 #undef NODE_FUNC_COLOR

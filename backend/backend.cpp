@@ -58,7 +58,10 @@ void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error) {
             break;
         }
         case FUNC_IDE:
-        case PAR:
+        case PAR: {
+            AsmPrintPar(node, stream, code_error);
+            break;
+        }
         default: {
             break;
         }
@@ -204,4 +207,17 @@ void AsmPrintNum(TreeElem num, FILE* stream, int* code_error) {
     MY_ASSERT(stream != NULL, FILE_ERROR);
 
     fprintf(stream, "push %d\n", (int)num);
+}
+
+void AsmPrintPar(Node* node, FILE* stream, int* code_error) {
+
+    MY_ASSERT(stream != NULL, FILE_ERROR);
+    MY_ASSERT(node   != NULL,  PTR_ERROR);
+
+    if((Operations)node->parent->data == INPUT) {
+        fprintf(stream, "in\npop [%d]\n", (int)node->data);
+    }
+    else if((Operations)node->parent->data == PRINT) {
+        fprintf(stream, "push [%d]\nout\n", (int)node->data);
+    }
 }

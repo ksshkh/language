@@ -1,14 +1,4 @@
-if(x < 10) {
-    if(y == 10) {
-        y = 9 - x;
-    }
-    else_if(x < 11) {
-        y = 1;
-    }
-    else {
-        y = 2;
-    }
-}
-if(x < 8) {
-    x = 9;
+input(x);
+if(y == 9) {
+    print(x);
 }
