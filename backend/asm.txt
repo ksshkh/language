@@ -44,8 +44,8 @@ label5:
 jmp label6
 label1:
 push [1]
-push 2
-pop [1]
+push [1]
+mul
 push 4
 push [0]
 mul
@@ -81,6 +81,7 @@ push 0
 push [1]
 sub
 push [8]
+sqrt
 add
 push 2
 push [0]
@@ -91,6 +92,7 @@ push 0
 push [1]
 sub
 push [8]
+sqrt
 sub
 push 2
 push [0]

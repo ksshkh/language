@@ -93,9 +93,22 @@ void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error) {
             break;
         }
         case DEG:
-        case SIN:
-        case COS:
-        case LN:
+        case SIN: {
+            fprintf(stream, "sin\n");
+            break;
+        }
+        case COS: {
+            fprintf(stream, "cos\n");
+            break;
+        }
+        case LN: {
+            fprintf(stream, "ln\n");
+            break;
+        }
+        case SQRT: {
+            fprintf(stream, "sqrt\n");
+            break;
+        }
         case EOT:
         case VAR_S: {
             AsmPrintAssigment(node, stream, code_error);
