@@ -62,6 +62,10 @@ void PrintDotNode(Node* node, FILE* stream) {
     }
     else if(node->type == OP) {
         fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_OP_COLOR ", label = \"{", node);
+
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wswitch-enum"
+
         switch((Operations)node->data) {
             case EQU: {
                 fprintf(stream, "==");
@@ -116,10 +120,17 @@ void PrintDotNode(Node* node, FILE* stream) {
                 break;
             }
         }
+
+        #pragma GCC diagnostic pop
+
         fprintf(stream, "}\"];\n");
     }
     else if(node->type == DEF_TYPE) {
         fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_DEF_COLOR ", label = \"{", node);
+
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wswitch-enum"
+
         switch((Operations)node->data) {
             case DEF_OP: {
                 fprintf(stream, "no op");
@@ -130,10 +141,17 @@ void PrintDotNode(Node* node, FILE* stream) {
                 break;
             }
         }
+
+        #pragma GCC diagnostic pop
+
         fprintf(stream, "}\"];\n");
     }
     else if(node->type == IDE) {
         fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_IDE_COLOR ", label = \"{", node);
+
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wswitch-enum"
+
         switch((Operations)node->data) {
             case IF: {
                 fprintf(stream, "if");
@@ -156,10 +174,17 @@ void PrintDotNode(Node* node, FILE* stream) {
                 break;
             }
         }
+
+        #pragma GCC diagnostic pop
+
         fprintf(stream, "}\"];\n");
     }
     else if(node->type == FUNC_IDE) {
         fprintf(stream, "\tnode%p [color = " NODE_BORDER_COLOR ", shape = Mrecord, style = filled, fillcolor = " NODE_FUNC_COLOR ", label = \"{", node);
+
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wswitch-enum"
+
         switch((Operations)node->data) {
             case PRINT: {
                 fprintf(stream, "print");
@@ -174,6 +199,9 @@ void PrintDotNode(Node* node, FILE* stream) {
                 break;
             }
         }
+
+        #pragma GCC diagnostic pop
+
         fprintf(stream, "}\"];\n");
     }
     else if(node->type == PAR) {
@@ -271,6 +299,10 @@ void InorderPrinting(Node* node, FILE* stream, int* code_error) {
         fprintf(stream, " %.2lf ", node->data);
     }
     else {
+
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wswitch-enum"
+
         switch((Operations)node->data) {
             case SIN: {
                 fprintf(stream, " sin ");
@@ -288,6 +320,8 @@ void InorderPrinting(Node* node, FILE* stream, int* code_error) {
                 fprintf(stream, " %c ", (int)node->data);
             }
         }
+
+        #pragma GCC diagnostic pop
     }
 
     InorderPrinting(node->right, stream, code_error);

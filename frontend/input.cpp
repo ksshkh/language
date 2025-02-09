@@ -1,5 +1,7 @@
 #include "input.hpp"
 
+// more functions
+
 #define TOKEN_NO_EXIST fprintf(stderr, "token error: %c (line %d)\n", (char)tree->data_base[data_base_ip], __LINE__); \
                        exit(0);
 
@@ -50,7 +52,7 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
             tree->tokens[tokens_ip] = _SEM(NULL, NULL);
             data_base_ip++;
         }
-        else if(tree->data_base[data_base_ip] == VAR_S && data_base_ip < tree->size_data_base - 1 && tree->data_base[data_base_ip + 1] != VAR_S) {
+        else if(tree->data_base[data_base_ip] == VAR_S && data_base_ip < (size_t)tree->size_data_base - 1 && tree->data_base[data_base_ip + 1] != VAR_S) {
             tree->tokens[tokens_ip] = _VAR_S(NULL, NULL);
             data_base_ip++;
         }
@@ -149,6 +151,9 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
 
             Operations op_code = FindToken(begin, length, code_error);
 
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wswitch-enum"
+
             switch(op_code) {
                 case DEF_OP: {
                     int found_id = FindName(tbl_nm, begin, length, code_error);
@@ -229,6 +234,8 @@ void TokensParcing(Tree* tree, size_t* num_of_nodes, TableName* tbl_nm, int* cod
                     break;
                 }
             }
+
+            #pragma GCC diagnostic pop
         }
     }
     tree->tokens[tokens_ip] = _EOT;

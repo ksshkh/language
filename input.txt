@@ -23,7 +23,7 @@ if(a == 0) {
     }
 }
 else {
-    D = b ^ 2 - 4 * a * c;
+    D = b * b - 4 * a * c;
     if(D < 0) {
         print(nul_r);
     }

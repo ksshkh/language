@@ -4,7 +4,6 @@
 #include "../frontend/recursivedes.hpp"
 
 #define OP_CHECK(data)  data == ADD || data == SUB || data == MUL || data == DIV || data == DEG || !strncmp(&data, "sin", 3) || !strncmp(&data, "cos", 3) || !strncmp(&data, "ln", 2)
-#define VAR_CHECK(data) data == X
 
 void TreeCtor(Tree* tree, const char* input_file_name, int* code_error) {
 
@@ -232,4 +231,3 @@ Node* ReadNode(Tree* tree, Node* node, Node* parent, int* code_error) {
 #endif
 
 #undef OP_CHECK
-#undef VAR_CHECK

@@ -32,6 +32,9 @@ void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error) {
 
     AsmPrint(node->right, label_id, stream, code_error);
 
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wswitch-enum"
+
     switch(node->type) {
         case NUM: {
             AsmPrintNum(node->data, stream, code_error);
@@ -52,10 +55,10 @@ void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error) {
             break;
         }
         case IDE: {
-            if((Operations)node->data == ELSE) {
-                fprintf(stream, "label%d:\n", ++(*label_id));
-            }
-            break;
+            // if((Operations)node->data == ELSE) {
+            //     fprintf(stream, "label%d:\n", ++(*label_id));
+            // }
+            // break;
         }
         case FUNC_IDE:
         case PAR: {
@@ -67,6 +70,8 @@ void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error) {
         }
     }
 
+    #pragma GCC diagnostic pop
+
 }
 
 void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error) {
@@ -74,6 +79,9 @@ void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error) {
     MY_ASSERT(stream   != NULL, FILE_ERROR);
     MY_ASSERT(node     != NULL,  PTR_ERROR);
     MY_ASSERT(label_id != NULL,  PTR_ERROR);
+
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wswitch-enum"
 
     switch((Operations)node->data) {
         case ADD: {
@@ -130,6 +138,8 @@ void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error) {
         }
     }
 
+    #pragma GCC diagnostic pop
+
 }
 
 size_t GetIfDepth(Node* node, int* code_error) {
@@ -154,9 +164,11 @@ void AsmPrintIf(Node* node, size_t old_label_id, size_t* label_id, FILE* stream,
     MY_ASSERT(node     != NULL,  PTR_ERROR);
     MY_ASSERT(label_id != NULL,  PTR_ERROR);
 
-    size_t depth = GetIfDepth(node->parent, code_error);
-    if(depth) {
-        fprintf(stream, "jmp label%d\n", *label_id + depth);
+    if((Operations)node->right->data != ELSE) {
+        size_t depth = GetIfDepth(node->parent, code_error);
+        if(depth) {
+            fprintf(stream, "jmp label%d\n", *label_id + depth);
+        }
     }
 
     fprintf(stream, "label%d:\n", old_label_id);
@@ -167,6 +179,9 @@ void AsmPrintInequality(Node* node, size_t* label_id, FILE* stream, int* code_er
     MY_ASSERT(stream   != NULL, FILE_ERROR);
     MY_ASSERT(node     != NULL,  PTR_ERROR);
     MY_ASSERT(label_id != NULL,  PTR_ERROR);
+
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wswitch-enum"
 
     switch((Operations)node->data) {
         case EQU: {
@@ -197,6 +212,8 @@ void AsmPrintInequality(Node* node, size_t* label_id, FILE* stream, int* code_er
             break;
         }
     }
+
+    #pragma GCC diagnostic pop
 }
 
 void AsmPrintAssigment(Node* node, FILE* stream, int* code_error) {
@@ -212,7 +229,7 @@ void AsmPrintVar(Node* node, FILE* stream, int* code_error) {
     MY_ASSERT(stream != NULL, FILE_ERROR);
     MY_ASSERT(node   != NULL,  PTR_ERROR);
 
-    if((Operations)node->parent->data != VAR_S) {
+    if((Operations)node->parent->data != VAR_S || (node->parent->left->type == VAR && node == node->parent->right)) {
         fprintf(stream, "push [%d]\n", (int)node->data);
     }
 }

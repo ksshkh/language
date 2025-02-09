@@ -20,7 +20,7 @@ char* ReadInBuff(const char* filename, long int* stream_size, int* code_error) {
     char *buffer = (char*)calloc(*stream_size, sizeof(char));
     MY_ASSERT(buffer != NULL, PTR_ERROR);
 
-    MY_ASSERT(fread(buffer, sizeof(char), *stream_size, stream) == *stream_size, READ_ERROR);
+    MY_ASSERT(fread(buffer, sizeof(char), *stream_size, stream) == (size_t)*stream_size, READ_ERROR);
 
     MY_ASSERT(fclose(stream) == 0, FCLOSE_ERROR);
 

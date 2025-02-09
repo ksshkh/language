@@ -55,10 +55,10 @@ enum Operations {
     SEM   = ';',
     VAR_S = '=',
 
-    EQU   = '==',
-    NEQ   = '!=',
-    AE    = '>=',
-    BE    = '<=',
+    EQU   = 'E',
+    NEQ   = 'N',
+    AE    = 'A',
+    BE    = 'B',
     ABOVE = '>',
     BELOW = '<',
     OR    = '|',
@@ -72,10 +72,6 @@ enum Operations {
 
     INPUT = 'I',
     PRINT = 'P',
-};
-
-enum Vars {
-    X = 'x',
 };
 
 struct Node {

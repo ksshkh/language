@@ -7,13 +7,13 @@ CFLAGS = -c -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-
 	-Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing   \
 	-Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -Werror=vla -D_DEBUG -D_EJUDGE_CLIENT_SIDE
 
-INCLUDES = ../tree/tree.hpp ../errors.hpp ../utils.hpp ../tree/treedump.hpp ../dsl.hpp ./backend.hpp
+INCLUDES = ./inc/disasm.hpp ../inc/errors.hpp ../inc/commands.hpp
 
-SOURCES = ./main.cpp ../tree/tree.cpp ../errors.cpp ../utils.cpp ../tree/treedump.cpp ./backend.cpp
+SOURCES = ./src/main.cpp ./src/disasm.cpp ../src/errors.cpp ../src/commands.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
-EXECUTABLE = back
+EXECUTABLE = disasm
 
 all: $(SOURCES) $(INCLUDES) $(EXECUTABLE)
 
@@ -25,7 +25,6 @@ $(EXECUTABLE): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	rm -rf *.o
-	rm -rf ../*.o
-	rm -rf ../*/*.o
-	rm -rf back
+	rm -rf ./src/*.o
+	rm -rf ../programs/retranslation.txt
+	rm -rf disasm

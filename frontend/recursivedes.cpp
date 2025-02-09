@@ -11,7 +11,7 @@ Node* GetTree(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) 
 
     Node* val = GetOp(num_of_nodes, tokens, ip, code_error);
 
-    if(tokens[*ip]->data != EOT) {SNTX_ERR}
+    if((Operations)tokens[*ip]->data != EOT) {SNTX_ERR}
     (*ip)++;
 
     return val;
@@ -45,9 +45,9 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
 
         return node;
     }
-    else if((Operations)tokens[*ip]->type == FUNC_IDE) {
+    else if(tokens[*ip]->type == FUNC_IDE) {
 
-        Node* node       = GetFuncCall(num_of_nodes, tokens, ip, code_error);
+        Node* node = GetFuncCall(num_of_nodes, tokens, ip, code_error);
 
         if((Operations)tokens[*ip]->data != SEM) {SNTX_ERR}
         (*ip)++;
@@ -75,7 +75,6 @@ Node* GetOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
     else {
         return NULL;
     }
-
 }
 
 Node* GetIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
@@ -147,7 +146,7 @@ Node* GetElseIf(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error
         (*ip)++;
 
         Node* else_node = GetOp(num_of_nodes, tokens, ip, code_error);
-        node = _ELSE(else_node, NULL);
+        node = _DEF_OP(NULL, _ELSE(else_node, NULL));
 
         if((Operations)tokens[*ip]->data != R_FBR) {SNTX_ERR}
         (*ip)++;
@@ -192,7 +191,7 @@ Node* GetAssign(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error
     if(tokens[*ip]->type == VAR) {
         Node* left_node  = GetVar(num_of_nodes, tokens, ip, code_error);
 
-        if(tokens[*ip]->data != VAR_S) {SNTX_ERR}
+        if((Operations)tokens[*ip]->data != VAR_S) {SNTX_ERR}
         (*ip)++;
 
         Node* right_node = NULL;
@@ -227,17 +226,22 @@ Node* GetFuncCall(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_err
     if((Operations)tokens[*ip]->data != R_BR) {SNTX_ERR}
     (*ip)++;
 
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wswitch-enum"
+
     switch(op) {
-            case PRINT: {
-                return _PRINT(param_node);
-            }
-            case INPUT: {
-                return _INPUT(param_node);
-            }
-            default: {
-                return _FCALL(op, param_node);
-            }
+        case PRINT: {
+            return _PRINT(param_node);
         }
+        case INPUT: {
+            return _INPUT(param_node);
+        }
+        default: {
+            return _FCALL(op, param_node);
+        }
+    }
+
+    #pragma GCC diagnostic pop
 }
 
 Node* GetAddAndSub(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
@@ -255,6 +259,9 @@ Node* GetAddAndSub(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_er
         Node* right_node = GetMulAndDiv(num_of_nodes, tokens, ip, code_error);
         Node* left_node  = node;
 
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wswitch-enum"
+
         switch(op) {
             case ADD: {
                 node = _ADD(left_node, right_node);
@@ -268,6 +275,8 @@ Node* GetAddAndSub(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_er
                 break;
             }
         }
+
+        #pragma GCC diagnostic pop
     }
 
     return node;
@@ -288,6 +297,9 @@ Node* GetMulAndDiv(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_er
         Node* right_node = GetDeg(num_of_nodes, tokens, ip, code_error);
         Node* left_node  = node;
 
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wswitch-enum"
+
         switch(op) {
             case MUL: {
                 node = _MUL(left_node, right_node);
@@ -302,6 +314,8 @@ Node* GetMulAndDiv(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_er
                 break;
             }
         }
+
+        #pragma GCC diagnostic pop
     }
 
     return node;
@@ -322,6 +336,9 @@ Node* GetDeg(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
         Node* node_right = GetUnaryOp(num_of_nodes, tokens, ip, code_error);
         Node* node_left  = node;
 
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wswitch-enum"
+
         switch(op) {
             case DEG: {
                 node = _DEG(node_left, node_right);
@@ -331,6 +348,8 @@ Node* GetDeg(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
                 break;
             }
         }
+
+        #pragma GCC diagnostic pop
     }
 
     return node;
@@ -350,6 +369,9 @@ Node* GetUnaryOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_erro
 
         Node* left_node = GetBrackets(num_of_nodes, tokens, ip, code_error);
 
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wswitch-enum"
+
         switch(op) {
             case SIN: {
                 return _SIN(left_node);
@@ -367,6 +389,8 @@ Node* GetUnaryOp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_erro
                 break;
             }
         }
+
+        #pragma GCC diagnostic pop
 
     }
     Node* node = GetBrackets(num_of_nodes, tokens, ip, code_error);
@@ -412,6 +436,9 @@ Node* GetCond(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) 
         Node* right_node = GetComp(num_of_nodes, tokens, ip, code_error);
         Node* left_node  = node;
 
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wswitch-enum"
+
         switch(op) {
             case AND: {
                 node = _AND(left_node, right_node);
@@ -426,6 +453,8 @@ Node* GetCond(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) 
                 break;
             }
         }
+
+        #pragma GCC diagnostic pop
     }
 
     return node;
@@ -443,6 +472,9 @@ Node* GetComp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) 
     (*ip)++;
 
     Node* right_node = GetAddAndSub(num_of_nodes, tokens, ip, code_error);
+
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wswitch-enum"
 
     switch(op) {
         case EQU: {
@@ -467,6 +499,8 @@ Node* GetComp(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) 
             SNTX_ERR
         }
     }
+
+    #pragma GCC diagnostic pop
 }
 
 Node* GetNum(size_t* num_of_nodes, Node** tokens, size_t* ip, int* code_error) {
