@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include "./errors.hpp"
+#include "../inc/errors.hpp"
 
 #define DEBUG
 

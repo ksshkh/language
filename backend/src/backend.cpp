@@ -1,6 +1,9 @@
-#include "backend.hpp"
+#include "../inc/backend.hpp"
 
-static const char* ASM_FILE = "asm.txt";
+static const char* ASM_FILE = "../CPU/programs/program.txt";
+
+#define SNTX_ERR fprintf(stderr, "syntax error: %.2lf (line %d)\n", node->data, __LINE__); \
+                 exit(0);
 
 void ConvertToAsm(Tree* tree, int* code_error) {
 
@@ -31,7 +34,7 @@ void AsmPrint(Node* node, size_t* label_id, size_t* loop_id, FILE* stream, int* 
 
     if((Operations)node->data == WHILE) {
         (*loop_id)++;
-        fprintf(stream, "loop%d:\n", *loop_id);
+        fprintf(stream, "loop%ld:\n", *loop_id);
     }
     size_t old_loop_id = *loop_id;
 
@@ -63,8 +66,7 @@ void AsmPrint(Node* node, size_t* label_id, size_t* loop_id, FILE* stream, int* 
         }
         case IDE: {
             if((Operations)node->data == WHILE) {
-                fprintf(stream, "jmp loop%d\nlabel%d:\n", old_loop_id, old_label_id);
-                // (*label_id)++;
+                fprintf(stream, "jmp loop%ld\nlabel%ld:\n", old_loop_id, old_label_id);
             }
             break;
         }
@@ -108,7 +110,6 @@ void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error) {
             fprintf(stream, "div\n");
             break;
         }
-        case DEG:
         case SIN: {
             fprintf(stream, "sin\n");
             break;
@@ -125,7 +126,6 @@ void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error) {
             fprintf(stream, "sqrt\n");
             break;
         }
-        case EOT:
         case VAR_S: {
             AsmPrintAssigment(node, stream, code_error);
             break;
@@ -142,6 +142,7 @@ void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error) {
         case OR:
         case AND:
         default: {
+            SNTX_ERR
             break;
         }
     }
@@ -175,11 +176,11 @@ void AsmPrintIf(Node* node, size_t old_label_id, size_t* label_id, FILE* stream,
     if((Operations)node->right->data != ELSE) {
         size_t depth = GetIfDepth(node->parent, code_error);
         if(depth) {
-            fprintf(stream, "jmp label%d\n", *label_id + depth);
+            fprintf(stream, "jmp label%ld\n", *label_id + depth);
         }
     }
 
-    fprintf(stream, "label%d:\n", old_label_id);
+    fprintf(stream, "label%ld:\n", old_label_id);
 }
 
 void AsmPrintInequality(Node* node, size_t* label_id, FILE* stream, int* code_error) {
@@ -193,27 +194,27 @@ void AsmPrintInequality(Node* node, size_t* label_id, FILE* stream, int* code_er
 
     switch((Operations)node->data) {
         case EQU: {
-            fprintf(stream, "jne label%d\n", *label_id);
+            fprintf(stream, "jne label%ld\n", *label_id);
             break;
         }
         case NEQ: {
-            fprintf(stream, "je label%d\n", *label_id);
+            fprintf(stream, "je label%ld\n", *label_id);
             break;
         }
         case AE: {
-            fprintf(stream, "jb label%d\n", *label_id);
+            fprintf(stream, "jb label%ld\n", *label_id);
             break;
         }
         case BE: {
-            fprintf(stream, "ja label%d\n", *label_id);
+            fprintf(stream, "ja label%ld\n", *label_id);
             break;
         }
         case ABOVE: {
-            fprintf(stream, "jbe label%d\n", *label_id);
+            fprintf(stream, "jbe label%ld\n", *label_id);
             break;
         }
         case BELOW: {
-            fprintf(stream, "jae label%d\n", *label_id);
+            fprintf(stream, "jae label%ld\n", *label_id);
             break;
         }
         default: {
@@ -261,3 +262,5 @@ void AsmPrintPar(Node* node, FILE* stream, int* code_error) {
         fprintf(stream, "push [%d]\nout\n", (int)node->data);
     }
 }
+
+#undef SNTX_ERR

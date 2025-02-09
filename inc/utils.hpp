@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 
 #include "errors.hpp"
-#include "../tree/tree.hpp"
+#include "tree.hpp"
 
 long int CountSizeFile(FILE* program, int* code_error);
 

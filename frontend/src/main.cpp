@@ -1,4 +1,4 @@
-#include "recursivedes.hpp"
+#include "../inc/recursivedes.hpp"
 
 static const char* INPUT_FILE = "../input.txt";
 

@@ -1,4 +1,4 @@
-#include "input.hpp"
+#include "../inc/input.hpp"
 
 // more functions
 

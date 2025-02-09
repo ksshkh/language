@@ -1,4 +1,4 @@
-#include "recursivedes.hpp"
+#include "../inc/recursivedes.hpp"
 
 #define SNTX_ERR fprintf(stderr, "syntax error: %.2lf (line: %d)\n", tokens[*ip]->data, __LINE__); \
                  exit(0);

@@ -8,8 +8,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "../errors.hpp"
-#include "../utils.hpp"
+#include "errors.hpp"
+#include "utils.hpp"
 
 #define DEBUG
 

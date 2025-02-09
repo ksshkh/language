@@ -50,4 +50,3 @@ pop [4]
 push [4]
 out
 label5:
-hlt

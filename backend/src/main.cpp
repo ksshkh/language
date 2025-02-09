@@ -1,4 +1,4 @@
-#include "backend.hpp"
+#include "../inc/backend.hpp"
 
 static const char* INPUT_TREE_FILE = "../tree.txt";
 

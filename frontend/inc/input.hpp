@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../tree/tree.hpp"
-#include "../tree/treedump.hpp"
-#include "../dsl.hpp"
+#include "../../inc/tree.hpp"
+#include "../../inc/treedump.hpp"
+#include "../../inc/dsl.hpp"
 
 const int TOKEN_NAME_LENGTH = 10;
 const int NUM_OF_TOKENS     = 11;

@@ -1,5 +1,5 @@
-#include "treedump.hpp"
-#include "../utils.hpp"
+#include "../inc/treedump.hpp"
+#include "../inc/utils.hpp"
 
 #define NODE_NUM_COLOR     "\"#8EECF5\""
 #define NODE_VAR_COLOR     "\"#98F5E1\""

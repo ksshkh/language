@@ -1,4 +1,4 @@
-#include "utils.hpp"
+#include "../inc/utils.hpp"
 
 long int CountSizeFile(FILE* program, int* code_error) {
 
