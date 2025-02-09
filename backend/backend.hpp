@@ -6,7 +6,7 @@
 
 void ConvertToAsm(Tree* tree, int* code_error);
 
-void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error);
+void AsmPrint(Node* node, size_t* label_id, size_t* loop_id, FILE* stream, int* code_error);
 
 void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error);
 
@@ -24,4 +24,4 @@ void AsmPrintNum(TreeElem num, FILE* stream, int* code_error);
 
 void AsmPrintPar(Node* node, FILE* stream, int* code_error);
 
-#endif
+#endif // BACKEND_HPP

@@ -8,13 +8,14 @@ void ConvertToAsm(Tree* tree, int* code_error) {
     MY_ASSERT(printout != NULL, FOPEN_ERROR);
 
     size_t label_id = 0;
+    size_t loop_id  = 0;
 
-    AsmPrint(tree->root, &label_id, printout, code_error);
+    AsmPrint(tree->root, &label_id, &loop_id, printout, code_error);
 
     MY_ASSERT(fclose(printout) == 0, FCLOSE_ERROR);
 }
 
-void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error) {
+void AsmPrint(Node* node, size_t* label_id, size_t* loop_id, FILE* stream, int* code_error) {
 
     MY_ASSERT(stream   != NULL, FILE_ERROR);
     MY_ASSERT(label_id != NULL,  PTR_ERROR);
@@ -23,14 +24,20 @@ void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error) {
         return;
     }
 
-    if((Operations)node->data == DEF_OP) {
+    if((Operations)node->data == DEF_OP || (Operations)node->data == WHILE) {
         (*label_id)++;
     }
     size_t old_label_id = *label_id;
 
-    AsmPrint(node->left, label_id, stream, code_error);
+    if((Operations)node->data == WHILE) {
+        (*loop_id)++;
+        fprintf(stream, "loop%d:\n", *loop_id);
+    }
+    size_t old_loop_id = *loop_id;
 
-    AsmPrint(node->right, label_id, stream, code_error);
+    AsmPrint(node->left, label_id, loop_id, stream, code_error);
+
+    AsmPrint(node->right, label_id, loop_id, stream, code_error);
 
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wswitch-enum"
@@ -55,10 +62,11 @@ void AsmPrint(Node* node, size_t* label_id, FILE* stream, int* code_error) {
             break;
         }
         case IDE: {
-            // if((Operations)node->data == ELSE) {
-            //     fprintf(stream, "label%d:\n", ++(*label_id));
-            // }
-            // break;
+            if((Operations)node->data == WHILE) {
+                fprintf(stream, "jmp loop%d\nlabel%d:\n", old_loop_id, old_label_id);
+                // (*label_id)++;
+            }
+            break;
         }
         case FUNC_IDE:
         case PAR: {

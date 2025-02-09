@@ -1,41 +1,22 @@
-input(a);
-input(b);
-input(c);
-
-inf_r = 3;
-two_r = 2;
-one_r = 1;
-nul_r = 0;
-
-if(a == 0) {
-    if(b == 0) {
-        if(c == 0) {
-            print(inf_r);
-        }
-        else {
-            print(nul_r);
-        }
+input(i);
+a = 1;
+while(a <= i) {
+    c = 1;
+    k = a;
+    while(k >= 1) {
+        c = k * c;
+        k = k - 1;
+    }
+    if(c != 24) {
+        print(c);
     }
     else {
-        print(one_r);
-        res = (0 - c) / b;
+        res = 78;
         print(res);
     }
+    a = a + 1;
 }
-else {
-    D = b * b - 4 * a * c;
-    if(D < 0) {
-        print(nul_r);
-    }
-    else_if(D == 0) {
-        print(one_r);
-        res = (0 - b) / (2 * a);
-        print(res);
-    }
-    else {
-        f_res = (0 - b + sqrt(D)) / (2 * a);
-        s_res = (0 - b - sqrt(D)) / (2 * a);
-        print(f_res);
-        print(s_res);
-    }
+if(c == 5040) {
+    res = 111;
+    print(res);
 }
