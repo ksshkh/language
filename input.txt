@@ -1,22 +1,12 @@
-input(i);
-a = 1;
-while(a <= i) {
-    c = 1;
-    k = a;
-    while(k >= 1) {
-        c = k * c;
-        k = k - 1;
+input(num);
+i = 1;
+while(i <= num) {
+    res = 1;
+    j = i;
+    while(j >= 1) {
+        res = j * res;
+        j = j - 1;
     }
-    if(c != 24) {
-        print(c);
-    }
-    else {
-        res = 78;
-        print(res);
-    }
-    a = a + 1;
-}
-if(c == 5040) {
-    res = 111;
     print(res);
+    i = i + 1;
 }

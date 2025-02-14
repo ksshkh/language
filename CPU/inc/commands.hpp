@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
-#include "../inc/errors.hpp"
+#include "../../inc/errors.hpp"
 
 enum Commands_code {
     CMD_DEFAULT = -2,

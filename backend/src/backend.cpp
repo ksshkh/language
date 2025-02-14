@@ -140,7 +140,9 @@ void AsmPrintOp(Node* node, size_t* label_id, FILE* stream, int* code_error) {
             break;
         }
         case OR:
-        case AND:
+        case AND: {
+            break;
+        }
         default: {
             SNTX_ERR
             break;

@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "../../inc/errors.hpp"
+#include "../../../inc/errors.hpp"
 #include "../../inc/stack.hpp"
 #include "../../inc/commands.hpp"
 
